@@ -2,7 +2,11 @@
 
 Human ReAct 的实际运行不是 `review → shape → plan → build` 这样的固定流水线，而是一个由 Human 维持、以 `review` 为反馈中心的渐进式承诺循环。
 
+本文只定义 task 之间的关系和反馈尺度；每个 task 的职责、自治与完成条件见 [Tasks README](tasks/README.md)。
+
 `review` 将现实状态、已有产物和执行结果转化为可判断的 Observation。Human 根据这些反馈决定下一轮应修改目标定义、执行方案还是现实对象，并通过新的 user prompt 发起对应 task。系统不会根据图中的连线自动转换 task。
+
+Review 可以在有信息价值时附带少量 Follow-up Options，暴露能继续降低不确定性的探索或决策方向。这些选项是 Observation 中的行动可能性，不是系统路由、默认下一步或新授权；仍由 Human 解释、选择并发起新一轮。
 
 ## 总体模型
 
@@ -60,7 +64,7 @@ Human ReAct 同时存在三种不同尺度的循环：
 flowchart LR
     HC["Human Context<br/>事实、偏好、约束、决策"]
     S["Shape<br/>更新 Intent Model"]
-    O["Current Intent<br/>变化、假设、开放决策"]
+    O["Shape Projection<br/>delta by default<br/>summary when needed"]
     H["Human<br/>补充、修正或确认"]
 
     HC --> S
@@ -69,7 +73,9 @@ flowchart LR
     H -->|"new context"| S
 ```
 
-Shape 的每一轮都把新 Human context 合并进当前 intent，明确本轮改变了什么、哪些假设失效、哪些关键选择仍未解决。它不是重新生成完整需求，也不会因为缺少信息而自动续接提问。Agent 返回当前 intent 后 Handback，Human 决定是否再次选择 shape、插入 review，或进入 plan/build。
+Shape 的每一轮都在内部把新 Human context 合并进当前 intent。由于这些轮次通常发生在同一段连续对话中，进行中的 `partial` Shape 只需返回本轮改变了什么、哪些假设失效、有哪些冲突或开放决策，不必重复完整 intent。
+
+Shape 收敛时可以返回简短的当前结论。只有 Human 要求总结、对话已经很长、重要旧表述相互冲突，或高风险 build 需要再次确认目标与授权时，才生成 consolidated current intent。进入 plan 或普通 build 本身不要求额外快照；后续 task 直接读取当前 conversation。每轮结果仍然 Handback，由 Human 决定继续 shape、插入 review，或发起 plan/build。
 
 Shape 的收敛条件不是消除所有未知，而是目标、scope、关键约束和重要取舍已经足以支持预期下一步。
 
@@ -184,29 +190,7 @@ Human 的 Action 是一次有目标和边界的委托，不一定是直接修改
 
 ## Exploration、Gap Analysis 与 Diagnosis
 
-`explore` 不再是顶层 task，而是所有 task 都可以使用的内部能力。在 review 中，Agent 可以根据 user prompt 自主组合不同的分析动作：
-
-```mermaid
-flowchart LR
-    T["Existing Target<br/>现实、产物或 user prompt"]
-    E["Explore<br/>搜索、追踪、重建事实"]
-    G["Gap Analysis<br/>比较 expected 与 actual"]
-    D["Diagnosis<br/>检验假设并定位原因"]
-    A["Assessment<br/>判断预期用途"]
-    C["Evidence-backed Context"]
-
-    T --> E
-    E --> G
-    G --> D
-    G --> A
-    D --> C
-    A --> C
-    E --> C
-```
-
-图中不是强制流水线。一个 review 可以只重建事实，也可以比较差距、完成 diagnosis 或评价可用性。Gap analysis 回答“哪里不同”，diagnosis 回答“为什么不同”；它们概念不同，但共同服务于形成 context，因此不要求 Human 选择不同顶层 task。
-
-Review target 也可以是 Human 当前的 user prompt。此时 review 检查其中的事实主张、原因假设、目标、约束和执行请求，区分证据、推断与偏好，并把风险或缺失 context 交还 Human。它审计 prompt 的内容，不评价用户本人，也不把被审计的执行请求自动视为操作授权。
+`explore`、gap analysis、diagnosis 和 assessment 是 task 内部分析动作，不增加宏观 loop 节点。它们为什么可以被同一个 Review 委托吸收，以及 Review user prompt 时的边界，统一见 [Review、Gap Analysis 与 Diagnosis](tasks/review-and-diagnosis.md)。
 
 ## 常见路径
 
@@ -227,7 +211,6 @@ Review
 
 - Review 是常见的反馈中心，但不是每一轮都必须显式执行的固定关卡；
 - Shape、Plan 和 Build 表示不同承诺层级，不是必须依次通过的阶段；
-- Human 决定跨 task 的移动，系统不自动路由；
-- Agent 可以在当前 task 内吸收不改变目标与授权边界的局部前置工作；
-- scope expansion、目标改变、新权限和重要取舍必须 Handback；
-- Explore、gap analysis、diagnosis 和 assessment 是 task 内部分析动作，不是 Human 必须分别路由的顶层 task。
+- Human 决定跨 task 的移动，系统不自动路由或自动续接。
+
+task 内自治和 Handback 边界由 [Tasks README](tasks/README.md) 定义。

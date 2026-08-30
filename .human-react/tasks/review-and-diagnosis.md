@@ -1,4 +1,4 @@
-# Note: Review、Gap Analysis 与 Diagnosis
+# Review、Gap Analysis 与 Diagnosis
 
 这份 note 记录 `review`、gap analysis 与 diagnosis 的概念边界，以及它们为什么可以被同一个顶层 `review` task 吸收。
 
