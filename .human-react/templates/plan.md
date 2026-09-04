@@ -2,7 +2,7 @@
 
 Plan 结果是面向 Human 和当前 conversation 的 Execution Checkpoint。它应让 Human 在第一屏看到选择的路径和作为 `Planned Change` 的实际修改面，并为后续独立的 Build authorization 提供清晰边界。
 
-使用 [`README.md`](README.md) 定义的公共 Task Result 头部。`Outcome` 直接说明 Target Outcome、Chosen Approach 和预期效果，不另生成重复的 summary dashboard 或 handoff packet。
+使用 [`common.md`](common.md) 定义的公共 Task Result。`Outcome` 直接说明 Target Outcome、Chosen Approach 和预期效果，不另生成重复的 summary dashboard 或 handoff packet。
 
 ## Status
 
@@ -132,7 +132,7 @@ Planned Change 涉及 material Compatibility Surface 时，Checks 同时验证 C
 
 ### Reconciliation
 
-requested target、scope、delegation、inferred Change Surface、Compatibility Boundary、实施策略、技术约束、依赖、顺序或 verification context 之间的冲突实质改变 Chosen Approach、Change Surface、Execution Model、Scope 或 Verification 时，按公共 [material reconciliation disclosure](README.md#material-reconciliation-disclosure) 投影。
+requested target、scope、delegation、inferred Change Surface、Compatibility Boundary、实施策略、技术约束、依赖、顺序或 verification context 之间的冲突实质改变 Chosen Approach、Change Surface、Execution Model、Scope 或 Verification 时，按公共 [material reconciliation disclosure](common.md#material-reconciliation-disclosure) 投影。
 
 - Plan 可以在 Current Delegation 内选择 working basis 并继续；
 - working basis 不创建新的 Human intent、产品语义、scope、兼容政策或风险承诺；

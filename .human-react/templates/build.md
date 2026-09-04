@@ -2,7 +2,7 @@
 
 Build 结果是当前 delivery loop 的 Reality Checkpoint 与 Loop Closure Observation。它首先让 Human 看见现实中发生了什么、证据支持什么和哪些边界仍然存在；只有 material multi-task 演化需要压缩时，才增加独立 Loop Closure。
 
-使用 [`README.md`](README.md) 定义的公共 Task Result 头部。`Outcome` 直接表达 Requested Outcome 在当前 evidence 下是否以及如何实现，不用“已执行 Build”、Actual Change 存在或修改数量代替结果。
+使用 [`common.md`](common.md) 定义的公共 Task Result。`Outcome` 直接表达 Requested Outcome 在当前 evidence 下是否以及如何实现，不用“已执行 Build”、Actual Change 存在或修改数量代替结果。
 
 ## Status
 
@@ -101,7 +101,7 @@ Verification 后仍有会影响 Human 判断的风险，或现实 effect 无法�
 
 ### Reconciliation
 
-plan、code、test、tooling、runtime reality 或 dirty worktree 之间的冲突实质改变 Actual Changes、Verification、Incomplete / Deviated、Remaining Risk 或 Loop Closure 时，按公共 [material reconciliation disclosure](README.md#material-reconciliation-disclosure) 投影。Plan check 与 Actual Environment 的差异只有在改变 evidence strength、assumption、Execution Model 或 Human 判断时才需要 Reconciliation；普通命令改写不生成该 section。
+plan、code、test、tooling、runtime reality 或 dirty worktree 之间的冲突实质改变 Actual Changes、Verification、Incomplete / Deviated、Remaining Risk 或 Loop Closure 时，按公共 [material reconciliation disclosure](common.md#material-reconciliation-disclosure) 投影。Plan check 与 Actual Environment 的差异只有在改变 evidence strength、assumption、Execution Model 或 Human 判断时才需要 Reconciliation；普通命令改写不生成该 section。
 
 - Routine means-level adaptation 不输出 Reconciliation；
 - working basis 不能创建新目标、scope、权限、Compatibility Boundary 或风险承诺；

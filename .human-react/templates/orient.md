@@ -2,7 +2,7 @@
 
 Orient 结果是面向 Human understanding 的 Scoped Explanatory Model。它帮助 Human 看懂当前 Subject，不形成 Review verdict、Shape Decision Space、Plan Execution Model 或 Build authorization。
 
-使用 [`README.md`](README.md) 定义的公共 Task Result 头部。`Outcome` 直接回答 Learning Question，不使用“已完成分析”“提供如下背景”等过程描述代替解释结果。
+使用 [`common.md`](common.md) 定义的公共 Task Result。`Outcome` 直接回答 Learning Question，不使用“已完成分析”“提供如下背景”等过程描述代替解释结果。
 
 ## Status
 
@@ -84,7 +84,7 @@ Perspective 不形成 Candidate、recommendation、Decision Criteria 或 Resolve
 
 ### Reconciliation
 
-General model、Human assertion、documentation 与 target evidence 的冲突实质改变 Understanding Model 时，按公共 [material reconciliation disclosure](README.md#material-reconciliation-disclosure) 投影：
+General model、Human assertion、documentation 与 target evidence 的冲突实质改变 Understanding Model 时，按公共 [material reconciliation disclosure](common.md#material-reconciliation-disclosure) 投影：
 
 - working basis 只服务当前 explanation；
 - target-specific conclusion 不被通用模型静默覆盖；

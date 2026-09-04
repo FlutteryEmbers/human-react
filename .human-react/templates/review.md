@@ -2,7 +2,7 @@
 
 Review 结果是面向 Human 和当前 conversation 的 Evidence Checkpoint。它应让 Human 一眼看到当前结论、证据边界和必要的后续选项，不需要脱离对话后仍然自包含。
 
-使用 [`README.md`](README.md) 定义的公共 Task Result 头部。`Outcome` 默认直接表达 evidence-backed answer；只有 review question 本身明确是条件问题时，才可以输出显式标注的条件结论。不要用“已完成 review”之类过程描述代替结论。
+使用 [`common.md`](common.md) 定义的公共 Task Result。`Outcome` 默认直接表达 evidence-backed answer；只有 review question 本身明确是条件问题时，才可以输出显式标注的条件结论。不要用“已完成 review”之类过程描述代替结论。
 
 ## Status
 
@@ -69,7 +69,7 @@ Classification 只能用于 evidence-backed finding，表达它对当前用途�
 
 ### Reconciliation
 
-当文档、代码、测试、运行产物、Human claim 或其他 evidence 之间的冲突实质影响 finding、diagnosis、Use Verdict 或 evidence boundary 时，按公共 [material reconciliation disclosure](README.md#material-reconciliation-disclosure) 投影 Evidence Reconciliation。
+当文档、代码、测试、运行产物、Human claim 或其他 evidence 之间的冲突实质影响 finding、diagnosis、Use Verdict 或 evidence boundary 时，按公共 [material reconciliation disclosure](common.md#material-reconciliation-disclosure) 投影 Evidence Reconciliation。
 
 - `Working Basis` 说明当前 Review 如何使用这些 evidence，不宣称已建立新的 source-of-truth policy；
 - `Basis` 只投影对 Human 判断有价值的 role、scope、version、directness 或 reproducibility 依据，不输出完整 evidence ledger；

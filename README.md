@@ -32,7 +32,7 @@ Task 表示本轮委托的结果类型和操作边界，不表示固定流程阶
 
 Human 可以直接选择、跳过或重复任意 task。选择 task 不证明其他 task 已完成，也不会扩大 user prompt 的授权。详细职责、自治边界、Closure Check 和完成条件统一见 [Tasks README](.human-react/tasks/README.md)。
 
-完整的多尺度循环和 Mermaid 图见 [实际循环](.human-react/loop.md)。Review、gap analysis 与 diagnosis 的概念边界见 [Review、Gap Analysis 与 Diagnosis](.human-react/tasks/review-and-diagnosis.md)。
+完整的多尺度循环和 Mermaid 图见 [实际循环](.human-react/loop.md)。
 
 ## Epistemic Orientation
 
@@ -94,7 +94,7 @@ Truth 在这里是持续校准 inquiry 的 `regulative ideal`，不是某轮 tas
 
 ## Core Boundaries
 
-Human 控制宏观循环和外部效果授权；Agent 控制当前委托内的 micro ReAct。task 之间不自动转换，任何名称、前序结果、Memory 或 Lens 都不能代替当前授权。完整不变量见 [Workspace README](.human-react/README.md)，task 自治、Handback 与 Closure 规则见 [Tasks README](.human-react/tasks/README.md)，输出边界见 [Templates README](.human-react/templates/README.md)。
+Human 控制宏观循环和外部效果授权；Agent 控制当前委托内的 micro ReAct。task 之间不自动转换，任何名称、前序结果、Memory 或 Lens 都不能代替当前授权。完整不变量见 [Workspace README](.human-react/README.md)，task 自治、Handback 与 Closure 规则见 [Tasks README](.human-react/tasks/README.md)，公共输出边界见 [Common Chat Projection](.human-react/templates/common.md)。
 
 ## Current Status
 
@@ -102,7 +102,7 @@ Human 控制宏观循环和外部效果授权；Agent 控制当前委托内的 m
 
 - [`tasks/README.md`](.human-react/tasks/README.md) 定义 task 体系；
 - [`loop.md`](.human-react/loop.md) 描述 Human 维持的实际循环；
-- [`templates/README.md`](.human-react/templates/README.md) 定义 chat projection；
+- [`templates/README.md`](.human-react/templates/README.md) 提供 projection 导航，[`templates/common.md`](.human-react/templates/common.md) 定义公共输出协议；
 - [`memory/**`](.human-react/memory/) 与 [`lenses/**`](.human-react/lenses/) 描述尚未接入的 Project Context Layer。
 
 `orient`、`review`、`shape`、`plan` 与 `build` 均已有第一版 task prompt 和 chat projection。项目没有实际 Project Profile、Topic Memory、正式 Lens、自动加载、Memory 写入、adapter、schema、生成器或安装器。
@@ -116,13 +116,13 @@ Human 控制宏观循环和外部效果授权；Agent 控制当前委托内的 m
 ├── tasks/
 │   ├── README.md
 │   ├── orient.md
-│   ├── review-and-diagnosis.md
 │   ├── review.md
 │   ├── shape.md
 │   ├── plan.md
 │   └── build.md
 ├── templates/
 │   ├── README.md
+│   ├── common.md
 │   ├── orient.md
 │   ├── review.md
 │   ├── shape.md
@@ -150,8 +150,8 @@ Human 控制宏观循环和外部效果授权；Agent 控制当前委托内的 m
 | [`.human-react/README.md`](.human-react/README.md) | 可嵌入 Workspace 的入口、最小不变量和模块状态 |
 | [`tasks/README.md`](.human-react/tasks/README.md) | task 共同规则、详细职责、边界和完成条件 |
 | [`loop.md`](.human-react/loop.md) | Human 维持的宏观循环、同-task 循环和反馈路径 |
-| [`review-and-diagnosis.md`](.human-react/tasks/review-and-diagnosis.md) | Review、gap analysis 与 diagnosis 的窄概念说明 |
-| [`templates/README.md`](.human-react/templates/README.md) | Task Result 的公共骨架、条件投影和表达边界 |
+| [`templates/README.md`](.human-react/templates/README.md) | chat projection 的目录导航、组合方式和文件职责 |
+| [`templates/common.md`](.human-react/templates/common.md) | Task Result 的公共骨架、状态、语义边界和 material disclosure |
 | [`memory/README.md`](.human-react/memory/README.md) | 未接入的 Project Memory 候选模型 |
 | [`lenses/README.md`](.human-react/lenses/README.md) | 未接入的 Lens 分类、联动和共同边界 |
 

@@ -17,7 +17,6 @@ orient / review / shape / plan / build
 - [`shape.md`](shape.md)
 - [`plan.md`](plan.md)
 - [`build.md`](build.md)
-- [Review、Gap Analysis 与 Diagnosis](review-and-diagnosis.md)
 
 ## 总体模型
 
@@ -156,7 +155,7 @@ Agent 应先确认冲突内容是否在讨论同一 proposition、scope、环境
 
 Reconciliation 可以选择当前 task 的 working basis，但不能因此创建新的 Human intent、产品或领域语义、source-of-truth policy、scope、权限或风险承诺。Agent 对 Human 请求采用的解释如果会实质改变 Change Surface、执行权限或结果边界，必须作为 material reconciliation 披露；能够采用满足请求的更窄解释时，不得用体系完整性或实现便利扩大 scope。触及这些边界时必须 Handback，但应先返回已形成的 working interpretation、推荐与冲突结构。
 
-`provisional`、`preserved` 或 `unresolved` 不会机械导致 `Status: blocked`。只有当前 task 无法形成任何有用结果时才 blocked。Routine 且不会改变 Outcome、承诺、现实变化或 Human 判断的局部冲突无需投影；其他情况按 [Templates README](../templates/README.md) 的 material disclosure 规则返回 Human。
+`provisional`、`preserved` 或 `unresolved` 不会机械导致 `Status: blocked`。只有当前 task 无法形成任何有用结果时才 blocked。Routine 且不会改变 Outcome、承诺、现实变化或 Human 判断的局部冲突无需投影；其他情况按 [Common Chat Projection](../templates/common.md#material-reconciliation-disclosure) 的 material disclosure 规则返回 Human。
 
 各 task 使用相同能力，但具有不同的 resolution depth：
 
@@ -229,7 +228,7 @@ Shape 是 compatibility boundary 的主要建模阶段。它识别相关 Surface
 
 Build 必须保持当前 Authorized Change 所引用的 Compatibility Boundary；具体执行规则由 [Build task](build.md) 定义。Review 继续以普通 evidence、gap 和 diagnosis 审计 observed effect 是否符合 Boundary，不增加 Review-specific compatibility 模式。
 
-`Compatibility Surface`、`Boundary`、`Basis` 和 `Mechanism` 是设计语义，不是固定字段。没有 material compatibility 内容时，整个 trace 被省略；不得生成空兼容占位或为潜在未知消费者展开开放式 compatibility archaeology。具体投影规则由 [Templates README](../templates/README.md) 定义。
+`Compatibility Surface`、`Boundary`、`Basis` 和 `Mechanism` 是设计语义，不是固定字段。没有 material compatibility 内容时，整个 trace 被省略；不得生成空兼容占位或为潜在未知消费者展开开放式 compatibility archaeology。具体投影规则由 [Common Chat Projection](../templates/common.md#compatibility-by-exception) 定义。
 
 ## Established / Conditional Separation
 
@@ -335,7 +334,7 @@ Review 审计的是 target 的内容，不评价用户本人，也不替 Human �
 - 在多 finding 审计、gap analysis 或 intended-use fitness review 中，用可选 disposition classification 区分 Blocking、Material、Minor 和 Validated；
 - 运行与分析直接相关的有界检查和验证。
 
-Gap analysis 与 diagnosis 的概念边界及组合方式见 [Review、Gap Analysis 与 Diagnosis](review-and-diagnosis.md)。
+Gap 描述 expected 与 actual 的差异；Diagnosis 从已观察到的 symptom 或 gap 解释因果来源；Classification 表达 evidence-backed finding 对 intended use 的处置意义。三者可以在一次 Review 中组合，但不能相互替代，也不构成独立 task。
 
 Classification 表达 evidence-backed finding 对当前用途的处置意义，不表达证据确定度，也不替代 gap、diagnosis、impact 或 risk。`Blocking` 必须相对于一个明确 intended use；没有 intended use 时不得用它表示绝对严重度。具体投影契约见 [Review projection](../templates/review.md)。
 
@@ -489,7 +488,7 @@ Assumptions
 Current Delegation
 ```
 
-Plan 不机械拼接历史，也不把 Shape Candidate set 当成穷尽列表。它可以补充形成可靠方案所需的技术候选。对于相互矛盾、已经过时或被 Plan 实质重分类的 context，应明确来源和影响；具体投影规则由 [Templates README](../templates/README.md) 定义。
+Plan 不机械拼接历史，也不把 Shape Candidate set 当成穷尽列表。它可以补充形成可靠方案所需的技术候选。对于相互矛盾、已经过时或被 Plan 实质重分类的 context，应明确来源和影响；具体投影规则由 [Common Chat Projection](../templates/common.md#material-reconciliation-disclosure) 定义。
 
 ### Decision Closure
 

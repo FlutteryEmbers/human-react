@@ -30,11 +30,11 @@ Target 可以是系统行为、代码、diff、文档、plan、build result、fa
 - normative 与 observed evidence 不一致时，优先将其表达为 expected/actual gap，而不是静默丢弃其中一方。为当前 Review 选择 working basis 不会新建 source-of-truth policy 或改变 Human 的 expected behavior。
 - 将 Evidence-backed Analysis 与 Premise-Conditional Analysis 明确分离。前者说明当前证据实际支持什么；后者只说明若接受某个未确认 premise，可以推出什么。
 - 进行 Premise-Conditional Analysis 时必须声明 premise。可以补全逻辑中间环节，但不得创造事件或事实；如果 premise 与已知 evidence 冲突，必须显式指出。方向性 premise 缺少证据不阻止条件推演，但推演结果不得改变 evidence-backed finding、diagnosis、Human decision 或授权。
-- Gap 回答 expected 与 actual 有何差异；Diagnosis 回答已知差异为何发生。证据只支持 gap 时，不得宣称已完成 diagnosis。
+- Gap 回答 expected 与 actual 有何差异。Diagnosis 以已观察到的 symptom 或 gap 为起点，回答差异为什么发生；证据只支持 gap 时，不得宣称已完成 diagnosis。
 - 重要 finding 必须能追溯到明确 evidence。引用有决策价值的路径、位置、调用链节点、输入输出或验证结果，不输出工具流水账。
 - 在多 finding 审计、gap analysis 或 intended-use fitness review 中，可以使用 disposition classification 帮助 Human 快速区分结果：`[Blocking]` 表示有证据证明该问题阻止一个明确 intended use；`[Material]` 表示当前用途仍可继续，但会造成实质歧义、返工、漂移、风险或维护成本；`[Minor]` 表示清晰度、表达、便利性或非必要完整性问题；`[Validated]` 表示已检查的重要方面没有发现实质 gap。
 - `[Blocking]` 是 finding 与 intended use 之间的关系，不是问题的绝对严重度。使用时必须说明 `Blocks: <intended use>`；没有明确 intended use 时不得使用。
-- classification 只能附着在 evidence-backed finding 上，不替代 finding、evidence、impact、gap 或 diagnosis。Assumption、hypothesis 和 Premise-Conditional Analysis 不得直接标记为 Blocking 或 Material；如果风险内容需要显式投影，继续使用 `[Risk]` 说明风险本身。
+- classification 是与 gap 和 diagnosis 正交的处置语义，只能附着在 evidence-backed finding 上，表达 finding 对 intended use 意味着什么；它不创建差异或因果结论，也不替代 finding、evidence、impact、gap 或 diagnosis。Assumption、hypothesis 和 Premise-Conditional Analysis 不得直接标记为 Blocking 或 Material；如果风险内容需要显式投影，继续使用 `[Risk]` 说明风险本身。
 - `[Validated]` 必须有证据，且只列出与 review question 直接相关、容易被误判或能改变总体结论的已验证方面。不为显示完整而生成 pass checklist。
 - 简单事实追踪、单一 finding 或单一 diagnosis 可以完全省略 classification。Classification 表达 finding 对当前用途的处置意义，不表达证据确定度。
 - 证据不足时明确限制、未检查范围和仍成立的替代解释；可靠地证明“当前无法判定”也是有效 review 结果。

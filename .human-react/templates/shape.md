@@ -2,7 +2,7 @@
 
 Shape 结果是面向 Human 和当前 conversation 的 Modeling Checkpoint。它应让 Human 快速看见 Agent 如何理解问题、本轮改变了什么、候选之间真正的区别，以及哪些例外选择必须由 Human 决定。
 
-使用 [`README.md`](README.md) 定义的公共 Task Result 头部。`Outcome` 直接说明本轮完成的语义对齐、模型修正或 Decision Space update，不用“已完成 Shape”之类过程描述代替结果。
+使用 [`common.md`](common.md) 定义的公共 Task Result。`Outcome` 直接说明本轮完成的语义对齐、模型修正或 Decision Space update，不用“已完成 Shape”之类过程描述代替结果。
 
 ## Status
 
@@ -99,7 +99,7 @@ Surface 无法确认时保持 Unknown，不推断不存在消费者。Compatibil
 
 ### Reconciliation
 
-当 Human language、system meaning、Current Take、constraint 或 candidate model 之间的冲突实质影响共享工作模型时，按公共 [material reconciliation disclosure](README.md#material-reconciliation-disclosure) 投影：
+当 Human language、system meaning、Current Take、constraint 或 candidate model 之间的冲突实质影响共享工作模型时，按公共 [material reconciliation disclosure](common.md#material-reconciliation-disclosure) 投影：
 
 - 已通过 semantic grounding 或局部 system evidence 消除的误解可以是 `resolved`；
 - 为继续建模而暂时采用的 working interpretation 使用 `provisional`，不自动成为 evidence-backed Fact 或 Human normative commitment；

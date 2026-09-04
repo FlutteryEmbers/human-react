@@ -251,10 +251,6 @@ Human 的 Action 是一次有目标和边界的委托，不一定是直接修改
 
 因此，Human ReAct 是一个以人类判断维持的宏观闭环，而不是要求系统实现自动状态机。
 
-## Understanding、Gap Analysis 与 Diagnosis
-
-搜索、阅读、追踪和观察是 task 内部能力，不增加宏观 loop 节点。Orient 以描述性解释为结果，Review 以 evidence-backed judgment 为结果；gap analysis、diagnosis 和 assessment 属于 Review 可以按问题组合的分析动作。两者的边界见 [Review、Gap Analysis 与 Diagnosis](tasks/review-and-diagnosis.md)。
-
 ## 常见路径
 
 这个操作模型可以简写为：

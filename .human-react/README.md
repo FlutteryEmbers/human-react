@@ -54,8 +54,8 @@ Project Context Layer 的候选模型分别见 [Memory](memory/README.md) 与 [L
 
 - task 语义归 [`tasks/README.md`](tasks/README.md)；
 - 循环关系归 [`loop.md`](loop.md)；
-- 输出投影归 [`templates/README.md`](templates/README.md)；
-- Review/diagnosis 的窄概念归 [`tasks/review-and-diagnosis.md`](tasks/review-and-diagnosis.md)；
+- 公共输出协议归 [`templates/common.md`](templates/common.md)，目录导航归 [`templates/README.md`](templates/README.md)；
+- task-specific 输出归对应的 `templates/<task>.md`；
 - Memory 与 Lens 的候选设计归各自目录。
 
 其他文档只提供摘要和链接，不建立平行协议。
