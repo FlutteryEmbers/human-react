@@ -12,6 +12,8 @@ Lens 是附加到当前 task 的可选 context module。它可以改变 Agent �
 - task 之间由 Human 维持的宏观循环；
 - templates 的公共输出契约。
 
+Perspective Lens 是 attention modifier；Orient 是面向 Human 的 explanatory result。未来的 Perspective Lens 可以改变 Orient 解释对象时采用的关注角度，但 Lens 本身不会成为 Orient、不会自动激活，也不会产生独立结果。
+
 候选体系区分三类 Lens：
 
 | Type | Candidate Responsibility | Example |
@@ -21,6 +23,8 @@ Lens 是附加到当前 task 的可选 context module。它可以改变 Agent �
 | Project Trace Lens | 提供项目特定系统的阶段模型、证据入口和诊断追踪协议 | Kotlin call-chain parsing、compiler lowering、billing settlement |
 
 详细边界分别见 [`perspectives/`](perspectives/)、[`postures/`](postures/) 与 [`project/`](project/)。
+
+未来的可选 Lens 也可以为建模讨论提供领域术语、建模 heuristic、约束和反例。这些内容只能帮助 Agent 关注和提问，不使 Agent 成为默认领域权威，也不会自动形成项目事实、Human Decision 或执行授权。本说明不增加新的 Lens 类型，也不定义加载或激活行为。
 
 “分离式分析”是一个候选 Perspective Lens 方向：它可以按 target 需要分开可观察内容、情绪信号、证据逻辑、条件延展与非证据猜想。Lens 只能强化关注维度，不得改写 Review 的证据纪律，也不得修改 task 职责、权限或公共输出契约。具体候选语义见 [`perspectives/`](perspectives/)。
 
@@ -63,7 +67,8 @@ Lens 不应要求每次完整回放所有阶段。默认策略应是从 symptom 
 - Lens 不保存 Project Profile、session state、调查结果或 Human decision；
 - task 输出的 reusable insight 不会自动写入或更新 Lens；
 - Lens 不得用项目知识推断新的执行授权；
-- Lens 内容与当前代码或规范冲突时，以重新观察到的项目证据为准，并暴露 Lens drift。
+- Lens 内容与当前 prompt、Memory 或项目 evidence 冲突时，由当前 task 按 Bounded Reconciliation 在自身 authority 内协调，并暴露会影响结果的 Lens drift；
+- 重新观察到的 evidence 约束 descriptive conclusion，但不会自动覆盖 Human-confirmed normative constraint、更新 Lens binding 或修改 Lens 内容。
 
 ## Possible Future Activation
 

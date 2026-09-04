@@ -6,7 +6,7 @@
 
 Human 维持宏观目标、上下文和授权边界，并通过 user prompt 选择本轮希望得到的结果。Agent 在当前委托边界内自主运行 micro ReAct loop；完成或触及边界后返回 Human，由 Human 决定下一轮如何继续。
 
-四个顶层 task 是 `review / shape / plan / build`。它们是独立的结果委托，不是固定 workflow stage。统一入口和详细规则见 [Tasks README](tasks/README.md)，实际反馈循环见 [Loop](loop.md)。
+五个顶层 task 是 `orient / review / shape / plan / build`。它们是独立的结果委托，不是固定 workflow stage。统一入口和详细规则见 [Tasks README](tasks/README.md)，实际反馈循环见 [Loop](loop.md)。
 
 ## Minimum Invariants
 
@@ -15,17 +15,21 @@ Human 维持宏观目标、上下文和授权边界，并通过 user prompt 选�
 3. Agent 的自治覆盖当前 task 所需的局部观察、推理、工具调用和验证；
 4. task 名称、前序结果、Memory 或 Lens 本身不构成执行授权；
 5. task 之间不存在自动转换；
-6. 改变目标、显著扩大 scope、取得新权限或作出重要取舍时必须 Handback；
-7. Task Closure 是内部核对，不生成公共必填 `Reflection` 字段；
-8. task 完成后返回结果和边界，不自动开始下一 task。
+6. Candidate、Human Decision、Resolved Choice、Planned Change、Authorized Change 与 Actual Change 不能相互自动晋升；
+7. Human 显式发起 Plan 只委托当前边界内的 means-level decision closure，不构成 Build authorization；
+8. Agent 默认在当前 authority 内自主协调 context 冲突，实质影响结果的 reconciliation 必须向 Human 披露；
+9. 改变目标、显著扩大 scope、取得新权限或作出重要取舍时必须 Handback；
+10. Task Closure 是内部核对，不生成公共必填 `Reflection` 字段；
+11. Build 以 verified reality 和 Loop Closure Observation 结束当前 delivery loop，但不决定是否开启下一 loop；
+12. task 完成后返回结果和边界，不自动开始下一 task。
 
 ## Module Map
 
 | Module | Responsibility | Current Status |
 | --- | --- | --- |
-| [`tasks/**`](tasks/) | task 共同规则、详细定位与 task prompt | Review v1 已设计；其余 task-specific prompt 为空 |
+| [`tasks/**`](tasks/) | task 共同规则、详细定位与 task prompt | Orient / Review / Shape / Plan / Build v1 已设计 |
 | [`loop.md`](loop.md) | Human 宏观循环、同-task 收敛和反馈路径 | 设计文档 |
-| [`templates/**`](templates/) | Human-readable conversation checkpoint | Review v1 已设计；其余 task-specific template 为空 |
+| [`templates/**`](templates/) | Human-readable conversation checkpoint | Orient / Review / Shape / Plan / Build v1 已设计 |
 | [`memory/**`](memory/) | Project Profile 与 Topic Memory 候选模型 | 未接入的 design reservation |
 | [`lenses/**`](lenses/) | Perspective、Posture 和 Project Trace Lens 候选模型 | 未接入的 design reservation |
 

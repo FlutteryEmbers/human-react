@@ -36,6 +36,8 @@ Topic Memory 主要保存 Descriptive Memory：
 - `[Invariant]`、`[Lesson]` 与 `[Heuristic]`，并保留相应证据强度；
 - 复杂调查得到但仍可能变化的 current understanding。
 
+Orient Result 是当前 conversation 中的 Scoped Explanatory Model，不会因为解释具有复用价值就自动成为 Project Memory。将其中的背景、模型或解释晋升为持久 context 需要未来单独设计的 Human-governed promotion；当前系统不提供该能力。
+
 Normative Memory 可以约束未来 task 的默认做法，但不能单独授权 Build、扩大 scope 或允许新的外部效果。Descriptive Memory 是 context cache，不是 source of truth；高影响事实仍需回到当前代码、测试、规范或 Human decision 验证。
 
 ## Lens Binding Concept
@@ -72,7 +74,9 @@ Current Human Prompt / Explicit Authorization
 > Agent Default
 ```
 
-当前 prompt 可以覆盖本轮默认值，但不会自动修改 Project Profile。发生实质冲突时应暴露给 Human，由 Human 决定这是单轮 exception 还是需要更新长期 context。
+当前 prompt 可以覆盖本轮默认值，但不会自动修改 Project Profile。发生实质冲突时，当前 task 先在自身 authority 内进行 Bounded Reconciliation，采用或保留适合本轮的 working basis，并向 Human 披露会影响结果的协调。只有需要将单轮 exception 晋升为持久 Project Profile、Lens binding 或其他 normative policy 时，才需要 Human 作出长期 context decision。
+
+Observed evidence 约束 descriptive conclusion，但不会自动覆盖 Project Profile 中 Human 已确认的 Decision 或 Constraint。两者不一致时，task 应区分 actual state 与 normative state，而不是静默改写其中一方。
 
 ## Non-integration Status
 
