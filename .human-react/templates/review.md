@@ -8,7 +8,7 @@ Review 返回面向 Human 的 Evidence Checkpoint。使用 [`common.md`](common.
 - `partial`：已有有用 finding，但核心问题或 declared effect 仍未关闭；
 - `blocked`：无法识别或访问 target，或缺少 Human 必须提供的 baseline、decision 或权限，且不能形成任何有用判断。
 
-Status 评价 Review 本身，不评价 target。完整证明 target 不合格或存在 `[Blocking]` finding 时仍可为 `complete`。
+Status 评价 Review 下解释后的审查请求，不评价 target；实质改写遵循公共 Request Interpretation。完整证明 target 不合格或存在 `[Blocking]` finding 时仍可为 `complete`；原文修改、提交动作被转为审查对象而未执行，不单独降低状态。
 
 ## Default Projection
 
@@ -33,6 +33,8 @@ Status 评价 Review 本身，不评价 target。完整证明 target 不合格�
 
 简单事实或单一 diagnosis 不要求 classification。Gap、Diagnosis 和 Repair Direction 默认放在对应 finding 下；只有它们跨多个 finding 才单独组织，不能复制原 finding。
 
+必要的整体理解模型与机制解释可在同一 Context 中先行说明，再展开 finding；“理解并评价”不拆 task。将“修复并提交”解释为审查请求时，按公共 Request Interpretation 披露未执行动作，不列为待审批或自动 Remaining Gap。
+
 ## Finding Semantics
 
 - `[Blocking]`：有 evidence 证明 finding 阻止明确 intended use，并紧邻说明 `Blocks`；
@@ -52,10 +54,10 @@ Classification 只用于 evidence-backed finding，表达 disposition，不表�
 - `Uncertainty`：只保留会改变结论、范围或下一轮选择的未检查范围、替代解释和 evidence 上限。
 - `Follow-up Options`：只有后续方向能显著降低关键不确定性时使用，通常不超过 2 项；`Possible task` 仅在映射明确时出现。
 
-Repair Direction 只对应 evidence-backed gap，并保持为最小方向。目标属性已经成立时使用 `[Validated]` 或 Outcome，不把 preserve requirement 包装成修复。
+Repair Direction 对应 evidence-backed gap，说明影响、改善方向及其为何有助于关闭问题，展开程度与本轮审查相称。目标属性已经成立时使用 `[Validated]` 或 Outcome，不从原文修复措辞虚构 gap，也不把 preserve requirement 包装成修复。
 
 ## Human Attention
 
 只放置需要 Human 决定、授权或接受风险的事项。普通未知进入 Uncertainty；`[Blocking]` finding 也不会仅因分类自动成为 Human blocker。
 
-Review 不输出完整替代设计、实施计划、工具流水账或自动后续行动。
+Review 不从审查自行展开独立的完整重设计、执行方案或实际修复；必要解释与有依据的改善方向可以进入结果。不输出工具流水账或自动后续行动。

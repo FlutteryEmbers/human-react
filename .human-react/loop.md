@@ -27,17 +27,17 @@ flowchart LR
     B --> H
 ```
 
-`task → Human` 返回一种更新后的状态；`Human → task` 表示 Human 根据当前差距选择新的结果委托。连线不是 routing、默认下一步或授权。
+`task → Human` 返回该主要责任下的结果及实质改写披露；`Human → task` 表示 Human 显式选择本轮协作意图。连线不是 routing、默认下一步或授权。Prompt 动作措辞在所选 task 内解释，不产生跨 task 连线。
 
 三种循环可以嵌套：
 
 ```text
 单次 task：Agent Micro ReAct
-同一 task 多轮：Human 补充 context，Agent 更新当前模型
-跨 task 多轮：Human 根据结果选择新的状态类型
+同一 task 多轮：保持所选 task，Human 补充 prompt，Agent 更新 task 内的请求解释与结果
+跨 task 多轮：Human 明确重新选择 task，Agent 按新选择处理后续请求
 ```
 
-Orient 是可随时插入的 understanding side-loop，不是 Review 前置阶段。Review 经常提供反馈入口，但不是必经 gate。
+Human 可以选择 Orient 作为 understanding side-loop，它不是 Review 前置阶段；Review 可直接包含必要理解模型。诊断、设计和规划也可作为当前 task 的辅助分析，不要求逐一交接。
 
 ## Commitment Flow
 
@@ -89,7 +89,7 @@ flowchart LR
     C --> H4
 ```
 
-Shape、Plan 和补充 Review 都可跳过或重复。明确的小修改可以直接 `Build → Human`，构成最小 delivery loop。Build 是当前 loop 的终点，不是项目生命周期终点；Remaining Gap 也不会自动成为新授权。
+Shape、Plan 和补充 Review 都可跳过或重复。Human 选择 Build 并授权明确的小修改时，可以直接 `Build → Human`，构成最小 delivery loop。Build 是当前 loop 的终点，不是项目生命周期终点；Remaining Gap 也不会自动成为新授权。
 
 Build 对潜在耦合使用：
 
@@ -145,7 +145,8 @@ Handback：结果和 material boundary 返回 Human
 
 ## Invariants
 
-- Human 决定跨 task 移动，系统不自动路由；
-- Task 结果只更新其负责的状态，不自动晋升承诺或权限；
-- Build verification 提供新的 observation，但不自动形成 Review verdict；
+- 只有 Human 明确重新选择才跨 task 移动，系统不从动作措辞自动路由；
+- Task 内完成必要辅助分析；实质改写在结果中披露，未执行动作不自动形成下一轮或待办；
+- 完成度按解释后的请求判断，结果不自动晋升承诺或权限；
+- Build verification 支持请求与 evidence 覆盖内的验收判断，不扩大为整个产品正确的保证；
 - Loop closure 是当前 evidence 下的 provisional closure，可被新 evidence、Reality change 或新目标重新打开。

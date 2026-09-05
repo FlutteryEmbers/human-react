@@ -19,13 +19,15 @@
 
 `Outcome` 直接表达 semantic result，不使用“已分析”“已完成”或工具过程代替。`Human Attention: none` 保留，帮助 Human 在第一屏判断是否需要介入；没有补充内容时省略整个 Context。
 
+一轮只输出一份所选 Task 的结果，`Task` 字段不因 prompt 的动作措辞变化。Outcome 回答解释后的工作请求，辅助理解、诊断、比较与局部规划按需进入同一 Context，不叠加子 task 或其他结果包。
+
 ## Status
 
-- `complete`：当前 task 的预期结果已经形成；
-- `partial`：已有有用结果，但存在明确未完成部分；
-- `blocked`：缺少 Human decision、权限或必要 evidence，无法形成任何有用结果。
+- `complete`：所选 task 下解释后的工作请求已完成，必要改写披露与已声明 effect 已完成；
+- `partial`：已有有用结果，但解释后的工作请求或 declared effect 存在实际未完成部分；
+- `blocked`：缺少 Human decision、权限或必要 evidence，无法形成任何有用的 task 内结果。
 
-Status 只描述当前请求的完成度，不评价下一 task readiness、target fitness 或整个项目，也不构成现实授权。Task-specific template 可以收紧含义，但不能改变这三个状态。
+Status 只描述 Task-scoped Request 的完成度，不评价下一 task readiness、target fitness 或整个项目，也不构成现实授权。原文动作被转为解释、审查或规划对象而未执行，不单独导致 `partial`；但不得声称该动作已经发生。Task-specific template 可以收紧含义，不能按未改写的原文动作机械降低状态。
 
 ## Declared Effect Receipt
 
@@ -39,11 +41,44 @@ Human 显式选择 effectful Lens 后，不增加公共字段。成功 effect �
 
 声明的 effect 失败时使用 `Memory Capture: failed — <reason>`。主 task 已形成有用结果时 Status 为 `partial`；主 task 也无法形成任何有用结果时才为 `blocked`。没有选择 effectful Lens 时不输出 receipt。
 
-## Request Alignment
+## Request Interpretation
 
-Agent 默认依赖当前 conversation，不重复 User Intent。只有请求复杂或歧义、结果为 `partial / blocked`、发生 material deviation，或 target、scope、Requested Outcome 与权限容易混淆时，才在 Context 中简短重述相关内容。
+发生实质改写时，在现有 Context 下使用可选的 Request Interpretation；一旦出现实质冲突，披露必需，不能只在内部改写。普通一致请求与轻微措辞归一化省略此段，不要求每轮复述 prompt。无修改结果和续轮压缩同样保留本轮必需的改写披露，不能因只输出 delta 或 Verification 而省略。
 
-Agent 推断不能写成 Human intent 或授权。无法确认的事实前提使用 `[Assumption]`；只分析“如果成立”使用 `[Conditional]`。
+```markdown
+### Context
+
+#### Request Interpretation
+
+- Original: <发生实质改写的原文关键表达>
+- Interpreted: <保留对象、关注目标与具体约束的本轮工作解释>
+- Boundary: <交付边界及未执行的原文动作>
+```
+
+三项共同说明改写与实际交付的关系，不必复制全部 prompt。工作解释不冒充 Human Decision，不修改原文，不创建授权；无法确认的事实前提仍用 `[Assumption]`，仅分析后果用 `[Conditional]`。
+
+解释说明是结果的一部分，不是前置审批。不得将同一改写重复放入 Reconciliation、Human Attention 或 Remaining Gap；未执行的原文动作不自动成为待办、下一轮任务或新增授权。真正尚缺的对象、evidence、选择或权限，按其对解释后请求的实际影响披露。
+
+例如选择 Review，却输入“修复 Memory 的问题，并提交修改”，完成审查后可返回：
+
+```markdown
+## Task Result
+
+- Task: review
+- Status: complete
+- Outcome: <已完成的审查结论>
+- Human Attention: none
+
+### Context
+
+#### Request Interpretation
+
+- Original: 修复 Memory 的问题，并提交修改。
+- Interpreted: 审查 Memory 的问题、修改必要性及修复方向。
+- Boundary: 本轮完成 Review，未执行文件修改与提交。
+```
+
+必要 finding 与 evidence 继续按 Review projection 展开；该示例仅展示改写披露。
 
 ## Shared Semantics
 
@@ -77,7 +112,7 @@ Agent 推断不能写成 Human intent 或授权。无法确认的事实前提使
 - Residual: <仍未解决的部分>
 ```
 
-空字段省略。Routine conflict、工具尝试、调查时间线和隐藏推理不进入 Reconciliation。Reconciliation 不替代 Conditional、Candidate、Risk、Human Attention 或 task-specific deviation，也不机械决定 Status。
+空字段省略。Routine conflict、工具尝试、调查时间线和隐藏推理不进入 Reconciliation。依据所选 task 改写动作诉求归 Request Interpretation，不在这里重复。Reconciliation 不替代 Conditional、Candidate、Risk、Human Attention 或 task-specific deviation，也不机械决定 Status。
 
 ## Single-home Rule
 
@@ -85,6 +120,7 @@ Agent 推断不能写成 Human intent 或授权。无法确认的事实前提使
 
 - Outcome：直接答案或最终状态；
 - Context：支持答案的 task-specific 内容；
+- Request Interpretation（位于 Context）：实质改写的原文、本轮理解与处理边界；
 - Reconciliation：working basis 怎样因冲突改变；
 - Risk：evidence 尚未关闭的后果；
 - Human Attention：只有 Human 能关闭的决定、权限或风险接受。

@@ -4,7 +4,7 @@
 
 ## Files
 
-- [`common.md`](common.md)：公共头部、Status、共享标签、Reconciliation 和压缩规则；
+- [`common.md`](common.md)：公共头部、Status、Request Interpretation、共享标签、Reconciliation 和压缩规则；
 - [`orient.md`](orient.md)：Scoped Explanatory Model；
 - [`review.md`](review.md)：Finding、Evidence、Gap 与 Diagnosis；
 - [`shape.md`](shape.md)：Decision Space 或 Model Delta；
@@ -20,11 +20,12 @@ tasks/<task>.md
 → Complete Task Contract
 ```
 
-Task prompt 定义行为，Common 定义共享输出，task-specific template 只定义当前 Context。Task 权限和职责优先；template 不能扩大 user prompt。
+Task prompt 定义所选 task 内的行为，Common 定义共享输出和实质改写披露，task-specific template 组织主要结果与必要辅助内容。Template 不自行重选 task，也不扩大具体操作授权。
 
 ## Design Boundary
 
-- 使用 progressive disclosure；Context 和空 section 可整体省略；
+- 使用 progressive disclosure；没有实质改写或其他补充信息时可省略 Context，发生实质改写时必须保留 Request Interpretation；
+- 一份所选 Task Result 按解释后的请求判断完成度；未执行的原文动作在改写边界说明，不自动变成待办或降低状态；
 - 每项 material information 只有一个主要归属，不跨 section 重复展开；
 - 默认示例表示普通最小结果，不是完整字段清单；
 - 当前状态已满足目标时，不生成空 Change Surface、Execution Model、Actual Changes 或 no-op packet；

@@ -8,7 +8,7 @@ Plan 返回 Execution Checkpoint。使用 [`common.md`](common.md)；Outcome 说
 - `partial`：已有可用的局部 delta 或方案，但 Human-owned decision 或 material evidence gap 仍限制执行；
 - `blocked`：无法识别目标、委托或形成任何有用模型。
 
-`complete` 可以表示当前目标已经满足、无需现实修改，也不表示 Human 接受全部 planning reasoning。
+Status 按 Plan 下解释后的规划请求判断，实质改写遵循公共 Request Interpretation；“修好”等原文动作被转为规划对象而未实施，不单独降低状态。`complete` 可以表示目标已经满足、无需修改，也不表示 Human 接受全部 planning reasoning。
 
 ## Default Projection
 
@@ -36,12 +36,12 @@ Plan 返回 Execution Checkpoint。使用 [`common.md`](common.md)；Outcome 说
 
 多修改面可以将 Change Surface 改为 `Target | Intended Change | Reason` 表格。每个 target 必须对应 observable unmet condition；companion target 的 Reason 还要说明它为何是关闭同一 Required Delta 不可缺少的修改。受影响但无需改变的对象不进入 Change Surface。
 
-没有 Required Delta 时，Outcome 直接说明目标已满足，Context 只保留支持该判断的 Verification；不生成空 Change Surface、Chosen Approach 或 no-op Execution Model。
+没有 Required Delta 时，Outcome 直接说明目标已满足，Context 保留支持该判断的 Verification 及本轮必需的 Request Interpretation；不生成空 Change Surface、Chosen Approach 或 no-op Execution Model。
 
 ## Optional Context
 
-- `Planning Basis`：只保留会改变实施的 Target Outcome、Constraint、Human Decision、Assumption 或 Compatibility Boundary。
-- `Chosen Approach`：存在重要路径选择时说明整体 Approach；Agent 在 delegation 内关闭的选择使用 `Resolved Choice + Basis`，不使用 `[Decision]`。
+- `Planning Basis`：只保留会改变实施的 Target Outcome、Constraint、Human Decision、Assumption、Compatibility Boundary，以及必要诊断或局部模型的结论与依据。
+- `Chosen Approach`：存在重要路径选择时说明整体 Approach，原机制不成立时说明替代机制及比较依据；Agent 在 delegation 内关闭的选择使用 `Resolved Choice + Basis`，不使用 `[Decision]`，不叠加 Shape Result。
 - `Execution Model`：只有多个 work package、必要依赖或顺序时出现；按结果组织，不展开文件级微步骤和工具流水账。
 - `Scope`：只有重要 Allowed Changes、Do Not Touch 或 Out of Scope 时出现。Scope 是权限边界，不代替 Change Surface。
 - `Risks / Stop Conditions`：只保留会改变 Build 行为、授权或失败处理的 material coupling signal；Stop Condition 将其表达为 Build 可观察的停止边界。
@@ -53,10 +53,12 @@ Compatibility 不使用专用 section。已建立 Boundary 放入 Planning Basis
 
 ## Multi-round Projection
 
-局部修订只输出变化内容；一旦 Change Surface 改变，必须返回完整当前 Change Surface，并同步受影响的 Execution Model、Scope 和 Verification。
+局部修订默认输出变化内容，并保留本轮必需的 Request Interpretation；一旦 Change Surface 改变，必须返回完整当前 Change Surface，并同步受影响的 Execution Model、Scope 和 Verification。
 
 ## Human Attention
 
 只放置必须由 Human 确定的 Target Outcome、价值、产品或领域语义、scope、external contract、Compatibility Boundary、权限或重要风险接受。可由 Agent 在既有边界内关闭的技术选择不成为 blocker。
+
+将实施措辞解释为规划请求不产生 Human Attention；必要诊断与边界内机制替换也不单独触发交接或 `partial`。
 
 Plan 不输出 Confirmed、routing、persistence、external handoff 或默认兼容政策。

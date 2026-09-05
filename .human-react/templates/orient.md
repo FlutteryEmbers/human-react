@@ -8,7 +8,7 @@ Orient 返回面向 Human understanding 的 Scoped Explanatory Model。使用 [`
 - `partial`：已有有用解释，但 material context、evidence、Human meaning 或 declared effect 仍不完整；
 - `blocked`：无法识别 Subject / Learning Question，且不能形成任何有用解释。
 
-`complete` 不表示 Subject 已被穷尽或解释不可修正。
+Status 按 Orient 解释后的理解请求及公共 Request Interpretation 规则判断；原文评价或修复动作被转为理解对象，不单独降低状态。`complete` 不表示 Subject 已被穷尽或解释不可修正。
 
 ## Default Projection
 
@@ -29,7 +29,7 @@ Orient 返回面向 Human understanding 的 Scoped Explanatory Model。使用 [`
 <形成理解所需的结构、机制或关系>
 ```
 
-如果 Outcome 已足以回答简单问题，可以省略 Context。Understanding Model 按理解顺序组织，不按检索顺序，也不把详细等同于穷尽。
+如果 Outcome 已足以回答简单问题且没有实质改写，可以省略 Context。Understanding Model 可包含设计理由、适用条件、取舍和局限，区分有来源的理由与 Agent 推测；按理解顺序组织，不按检索顺序，也不把详细等同于穷尽。
 
 ## Optional Context
 
@@ -45,4 +45,4 @@ Orient 返回面向 Human understanding 的 Scoped Explanatory Model。使用 [`
 
 只放置 Human 必须明确的 Subject、meaning、intended use 或 materially different learning direction。能由当前 context 或只读检查消除的未知不成为 Human blocker。
 
-Orient 不输出 verdict、Candidate、实施建议、reading list、检索流水账、持久化建议或自动 next-task。
+Orient 交付理解模型和必要的改写披露；原文中的评价、优化或修复诉求转为相关机制、条件和取舍的说明，不自行形成整体 verdict、方案选择或实施承诺。Reading list、检索流水账、持久化建议与自动 next-task 不进入结果。

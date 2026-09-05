@@ -1,6 +1,6 @@
 # Human ReAct Tasks
 
-本目录包含五个可直接用于现代 Agent harness 的 task prompt。Task 由 Human 按“本轮需要得到什么结果”选择，不按最终项目目标或固定 workflow stage 选择。
+本目录包含五个可直接用于现代 Agent harness 的 task prompt。Human 显式选择 Task 表达本轮协作意图；所选 Task 对 prompt 有最高意图解释优先级，决定主要结果责任，不按动作措辞自动重选或进入固定 workflow stage。
 
 共享运行语义见 [`../core.md`](../core.md)，task 之间的关系见 [`../loop.md`](../loop.md)，输出格式见 [`../templates/`](../templates/)。
 
@@ -22,17 +22,18 @@ Build changes or confirms Reality and returns verified feedback.
 | 判断必要修改并形成可执行方案 | [`plan`](plan.md) | Decision Space + Evidence + Delegation + Current State → Required Delta + Execution Model when needed |
 | 确认或改变现实并验证结果 | [`build`](build.md) | Requested Outcome + Current Reality + Authorized Change → Verified Reality + Actual Change when required + Loop Closure Observation |
 
-搜索、阅读、追踪、局部 diagnosis、工具调用和验证是 task 内部能力，不是额外 task。Human 可以跳过或重复任意 task；选择 task 不证明其他 task 已完成，也不会扩大 user prompt 的 scope 或权限。
+理解、调查、比较、diagnosis、局部设计、规划和验证可以是所选 task 内的辅助能力，必须直接支持解释后的工作请求，不产生独立目标或新增权限。Human 可以跳过或重复任意 task；只有明确重新选择才改变当前及续轮 task，选择不证明前序工作已完成。
 
-典型区分：
+同一句 prompt 按所选 Task 形成不同工作请求；下表不作为自动路由规则：
 
-| Request | Task |
+| Selected Task + Prompt | Task-scoped Request |
 | --- | --- |
-| 解释调用链怎样工作 | Orient |
-| 判断调用链为什么没有形成预期 journey | Review |
-| 讨论调用链应该怎样重新建模 | Shape |
-| 给出必要修改面和验证方案 | Plan |
-| 修改代码或确认现状并验证 | Build |
+| Orient + 评价这个设计好不好 | 解释相关机制、条件、设计理由与取舍，披露评价诉求的改写 |
+| Review + 修复并提交 | 审查问题、修改必要性、影响和改善方向，披露未修改、未提交 |
+| Review + 理解并评价 | 一份 Review 同时包含理解模型与评价 |
+| Shape + 直接实现方案 A | 围绕 A 构造、检验和比较候选方向，披露未实施 |
+| Plan + 修好这个问题 | 必要修改面、执行方案和验证要求，披露尚未实施 |
+| Build + 仅检查目标是否成立，不修改 | 验证当前现实并交付，不制造变更 |
 
 ## Task Prompt Contract
 
@@ -59,10 +60,10 @@ Build changes or confirms Reality and returns verified feedback.
 ```
 
 - `Shared Contract`：保证单个 prompt 可以脱离 loader 独立使用；
-- `Responsibility`：定义本轮唯一结果类型；
+- `Responsibility`：定义所选 task 的主要结果责任与动作诉求的解释方向；
 - `Working Policy`：当前 task 的行为和判断机制；
 - `Boundaries`：不可越过的红线；
-- `Handback`：停止并把控制权返回 Human 的条件；
+- `Handback`：对象、证据、重要选择或权限等真实阻碍要求返回 Human 的条件，不按措辞冲突触发；
 - `Complete When`：结果、证据和边界的内部核对；
 - `Result Projection`：链接对应 chat projection，不复制格式规则。
 
@@ -72,9 +73,10 @@ Working Policy 是 task-specific 行为的唯一详细定义。Boundaries、Hand
 
 所有 task 都遵循以下最小边界：
 
-- 当前 user prompt 决定实际 target、scope 和权限；
-- task 名称只决定结果类型，不产生额外授权；
-- Agent 自主完成当前结果所需的局部 micro ReAct；
+- 所选 task 决定意图解释与主要结果责任，prompt 提供对象、关注目标、具体约束和上下文；
+- 保持所选 task，将冲突措辞解释为 task 内请求并直接完成，不因措辞冲突确认、切换或降低状态；
+- 实质改写按公共 Request Interpretation 披露，不冒充 Human Decision 或实际动作；
+- Agent 自主完成解释后请求所需的局部 micro ReAct，不从 Task 选择或改写取得额外操作授权；
 - Agent 不改变目标、不显著扩大 scope，也不替 Human 作出重要取舍；
 - material reconciliation 对 Human 可见；
 - 触及目标、scope、权限或重要风险边界时 Handback；
@@ -82,6 +84,7 @@ Working Policy 是 task-specific 行为的唯一详细定义。Boundaries、Hand
 
 详细共享原则只在 [Human ReAct Core](../core.md) 定义：
 
+- [Task-scoped Request Interpretation](../core.md#task-scoped-request-interpretation)；
 - [Epistemic Separation](../core.md#epistemic-separation)；
 - [Bounded Reconciliation](../core.md#bounded-reconciliation)；
 - [Commitment Grounding](../core.md#commitment-grounding)；
@@ -98,26 +101,28 @@ Human 可以为当前 task 显式附加一个适用的 [Lens](../lenses/)。组�
 
 ### Orient
 
-形成面向 Human understanding 的 Scoped Explanatory Model。它解释对象，不形成 correctness verdict、Decision Space、Execution Model 或现实修改。完整规则见 [`orient.md`](orient.md)。
+以 Scoped Explanatory Model 为主要结果，将优化、修复、评价诉求解释为原对象的机制、条件、设计理由与取舍问题，不承担整体 verdict 或实施承诺。完整规则见 [`orient.md`](orient.md)。
 
 ### Review
 
-围绕已有 target 形成 evidence-backed finding、gap、diagnosis、fitness judgment 或可靠的不确定性边界。它不修改 target。完整规则见 [`review.md`](review.md)。
+以有依据的审查 context 为主要结果，包含必要理解模型、finding、gap、diagnosis、影响和改善方向；修改、提交措辞转为审查问题，不修改 target。完整规则见 [`review.md`](review.md)。
 
 ### Shape
 
-对齐 Human 表达与系统语义，构造 Candidate、Constraint、Pressure Point 和 Human-decision exception 组成的 Decision Space。它不形成唯一实施承诺。完整规则见 [`shape.md`](shape.md)。
+以 Decision Space 为主要结果，将采用、实施诉求解释为候选构造、可行性判断、比较及推荐；推荐保持候选地位，不形成实施承诺。完整规则见 [`shape.md`](shape.md)。
 
 ### Plan
 
-根据 Current State 判断 Required Delta，在 delegation 内关闭 means-level choice，并在需要修改时形成 Change Surface、Execution Model 和 Verification。它不修改现实。完整规则见 [`plan.md`](plan.md)。
+将实施诉求解释为 Required Delta、执行方案与验证要求，可补充诊断、比较及替换机制，在 delegation 内关闭技术选择；不执行现实修改。完整规则见 [`plan.md`](plan.md)。
 
 ### Build
 
-依据当前 Build request 和最新 Reality 确认剩余 delta，实施必要且已授权的现实干预，并以 Verification 和 Loop Closure Observation 返回 Human。完整规则见 [`build.md`](build.md)。
+围绕原对象与目标交付 verified reality，可内部完成理解、诊断、局部设计、规划和验收评价；只实施必要且已授权的动作，尊重具体限制。完整规则见 [`build.md`](build.md)。
 
 ## Selection And Handback
 
-Human 不需要预测完整流程，只需选择本轮结果。Agent 若发现请求的核心结果已经属于另一种 task，应返回当前 task 已形成的有效内容和边界，而不是静默改换结果类型。
+Human 选择 task 表达本轮意图，Agent 不从 prompt 动词重新猜测 task。即使措辞明确冲突，也先保留对象、关注目标和具体约束，将诉求解释为所选 task 可承担的工作并完成，在结果中披露重要改写与处理边界。续轮保持选择，只有 Human 明确重新选择才改变。
 
-Task 可以建议少量有信息价值的可能方向，但不能自动路由、调用下一 task 或把建议变成授权。`complete / partial / blocked` 只描述当前 task 请求的完成度，不评价整个项目，也不表示下一 task readiness。
+Task 与措辞冲突不是 Handback 条件；对象无法确定、关键 evidence 缺失、重要选择未决或 task 内必要权限不足时，保留有用且可安全完成的部分并披露真实阻碍。不能借改写取消操作限制、扩大 scope、创造事实或用泛泛输出代替具体问题。
+
+Task 可以建议少量有信息价值的可能方向，但不能自动路由、调用下一 task 或把建议变成授权。`complete / partial / blocked` 按解释后的 task 内请求判断；未执行的原文动作被转为讨论对象时不单独降低状态，也不自动成为待办或下一轮任务。状态不评价整个项目或下一 task readiness。

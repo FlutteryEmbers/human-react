@@ -30,7 +30,7 @@ applies_to:
 - `id` 必须全局唯一且使用 kebab-case；文件名必须是 `<id>.md`；
 - `type` 只允许 `perspective`、`posture` 或 `project-trace`；类型是语义分类，不是目录层级；
 - `activation` v1 只允许 `explicit-only`；
-- `applies_to` 只列出 Lens 可以修饰的现有 task；不匹配时不应用该 Lens；
+- `applies_to` 只列出 Lens 可以修饰的现有 task；以 Human 所选 task 判断，不匹配时不应用该 Lens；prompt 改写不扩大 applies_to 或 effects；
 - `scope` 仅 `project-trace` 必填且必须为非空列表，其他类型省略；它描述适用范围，不触发 scope matching；
 - `effects` 可选；存在时必须声明固定 effect、scope、时机和上限；
 - 空的可选 metadata 整段省略。

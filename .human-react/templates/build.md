@@ -8,7 +8,7 @@ Build 返回 Reality Checkpoint 与 Loop Closure Observation。使用 [`common.m
 - `partial`：已有有用 Actual Change 或可靠局部结论，但目标、验证或 declared effect 尚未完整关闭；
 - `blocked`：无法安全建立必要授权或形成任何有用现实结果与可靠结论。
 
-Status 不评价 target 整体正确性。Actual Change 不证明 Outcome achieved；没有 Actual Change 也不表示失败。
+Status 按 Build 下解释后的现实结果请求判断，实质改写遵循公共 Request Interpretation。验收评价限定于请求与 evidence 覆盖，不扩大为整个产品正确的保证。Actual Change 不证明 Outcome achieved；没有 Actual Change 也不表示失败。
 
 ## Default Projection
 
@@ -36,11 +36,13 @@ Status 不评价 target 整体正确性。Actual Change 不证明 Outcome achiev
 
 没有现实修改但已验证 Outcome 成立时，省略 Actual Changes。Verification 对 `complete` 必需；`partial / blocked` 中只要它影响判断也必须出现。
 
+理解、诊断、局部设计与规划按需要在同一 Context 中说明结论和依据，不叠加其他 Task Result。只要求检查且不修改时，交付实际验证结果；如果请求仍要求实现尚未成立的目标而修改被禁止，不取消限制或伪称目标成立，披露解释后请求的实际未完成部分。
+
 `[Change]` 表达实际状态变化，`[Verification]` 表达实际执行或要求的检查；它们不是 Planned Change 或未来建议。
 
 ## Verification Boundary
 
-- Verification 记录实际方法和它支持的 claim，不只记录命令退出状态；
+- Verification 记录实际方法、验收判断及其支持的 claim 与覆盖边界，不只记录命令退出状态；
 - Plan Checks 默认是推荐方法；coverage 等价的环境适配可以替换，Human 指定的方法属于 acceptance 时不得静默替换；
 - Diagnostic artifact 必须证明可运行、目标 observation 出现，并排除 syntax、fixture、setup、import 或 environment failure；
 - Failing test 只支持给定 instrument、input、environment 和 dependency state 下的 observation，没有 baseline 时不自动证明 defect、root cause 或 regression；
@@ -59,8 +61,9 @@ Status 不评价 target 整体正确性。Actual Change 不证明 Outcome achiev
 | 冲突导致 working basis 或五项可观察边界改变 | `Reconciliation` |
 | 需要 Human decision、扩权或风险接受 | `Human Attention` |
 | scope 外、可能成为新 loop 输入的独立问题 | `Loop Closure / Remaining Gap` |
+| 依据所选 task 对动作诉求的实质改写 | `Request Interpretation` |
 
-同一事实不能在这些位置重复展开。Routine means-level adaptation、省略的 stale Planned Change 和稳定边界内的 companion edit 不投影。
+同一事实不能在这些位置重复展开。改写说明不是前置审批；被转为其他交付内容的原文动作不自动进入 Remaining Gap 或 Incomplete / Deviated。Routine means-level adaptation、省略的 stale Planned Change 和稳定边界内的 companion edit 不投影。
 
 Reconciliation 使用公共结构，并将多个相关 coupling signal 聚合为一次对 Human 有用的说明。Material deviation 的现实结果进入 Incomplete / Deviated；需要 Human 处理的 residual 只在 Human Attention 简短引用。
 

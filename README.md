@@ -6,7 +6,7 @@ Human ReAct 是面向现代 Agent harness 的轻量 Prompt Workspace。Human 维
 
 ## Result-oriented Tasks
 
-Task 按 Human 当前需要的结果选择，而不是按最终项目目标选择：
+Human 选择 Task 表达本轮协作意图。所选 Task 对 prompt 有最高意图解释优先级，决定主要结果责任，而非固定项目阶段：
 
 | Task | Human 当前需要 | State Transition |
 | --- | --- | --- |
@@ -16,20 +16,21 @@ Task 按 Human 当前需要的结果选择，而不是按最终项目目标选�
 | `plan` | 判断必要修改并形成执行方案 | Decision Space + Evidence + Delegation + Current State → Required Delta + Execution Model when needed |
 | `build` | 确认或改变现实并验证 | Requested Outcome + Current Reality + Authorized Change → Verified Reality + Actual Change when required + Loop Closure Observation |
 
-搜索、追踪、diagnosis、工具调用和验证是 task 内部能力。Human 可以直接选择、跳过或重复任意 task；系统不会自动转换 task。
+Agent 在所选 Task 内解释 prompt，保留对象、关注目标和具体约束，完成必要的理解、调查、诊断、比较、局部设计、规划和验证。措辞冲突通过 Task-scoped Request 消解，实质改写在结果中披露；不因此要求确认、切换 Task 或降低完成状态。只有 Human 明确重新选择 Task 才改变本轮及续轮选择。
 
 ## Core Model
 
 ```text
-Human chooses a result and boundary
+Human selects a Task and supplies prompt context
+→ Agent forms a Task-scoped Request
 → Agent runs a bounded micro ReAct
-→ Task Result exposes outcome, evidence and material boundaries
+→ Task Result exposes outcome, evidence and material Request Interpretation
 → Human interprets the result and chooses the next loop
 ```
 
 核心约束：
 
-- Human 是 macro loop 的 center agent；
+- Human 是 macro loop 的 center agent；所选 Task 决定本轮意图解释，prompt 改写不创造事实、scope 或操作权限；
 - task 名称、前序结果、Memory、普通 Lens 或 Human 沉默不产生现实授权；Human 显式选择 effectful Lens 时只授权其 declared sidecar；
 - Fact、Assumption、Conditional、Candidate、Decision、Planned Change、Authorized Change 和 Actual Change 不自动相互晋升；
 - Agent 在委托内自主协调冲突，material reconciliation 对 Human 可见；
@@ -50,7 +51,7 @@ Design 不定义运行行为，sandbox 内容也不会自动晋升为当前设�
 
 ## Current Status
 
-五个 task 均已有第一版 prompt 和 chat projection。当前系统是文档级协议，没有自动 task selection、runtime、adapter、generator 或 installer。
+五个 task 已提供以所选 Task 为意图锚点的 prompt 和 chat projection，实质改写通过 Request Interpretation 披露。当前系统是文档级协议，没有自动 task selection、runtime、adapter、generator 或 installer。
 
 [`lenses/**`](.human-react/lenses/) 已提供 manual runtime composition v1：Human 为当前 task 显式选择 Lens，Agent 解析其直接依赖后形成 specialized micro ReAct。普通 Lens 不增加权限；Human 显式选择带 `effects` 的 Lens 时，只授权 metadata 声明的 protocol-owned sidecar。
 
@@ -105,4 +106,4 @@ human_react/
 
 [`sandbox/workflow`](sandbox/workflow/) 只提供结构和思路参考。Human ReAct 借鉴显式 task、规范输出、Lens 和外部化 context 的价值，但不兼容其 taxonomy、session lifecycle、artifact、persist、sync 或 archive 体系。
 
-核心差异是：Human 维护目标、context、授权和反馈循环；task 表达本轮需要更新的状态，Agent 负责委托内部的 micro ReAct。
+核心差异是：Human 维护目标、context、授权和反馈循环；task 表达本轮主要结果责任，Agent 在其内部解释请求并完成 micro ReAct。

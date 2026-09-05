@@ -1,14 +1,14 @@
 # Human ReAct Workspace
 
-本目录是可嵌入宿主项目的运行协议。Human 维持宏观目标、context 和权限边界，通过 user prompt 选择本轮结果；Agent 在当前委托内运行 micro ReAct，并在完成或触及边界后返回 Human。
+本目录是可嵌入宿主项目的运行协议。Human 维持宏观目标、context 和权限边界，显式选择 Task 表达本轮意图；Agent 在该 Task 内解释 user prompt 并运行 micro ReAct，并在完成或触及边界后返回 Human。
 
-`orient / review / shape / plan / build` 是独立的结果委托，不是固定 workflow stage。
+`orient / review / shape / plan / build` 表达独立的主要结果责任，不是固定 workflow stage；辅助分析在所选 Task 内完成。
 
 ## Minimum Invariants
 
 1. Human 控制 macro loop、价值取舍和现实干预权限；
-2. task 名称只决定结果类型，不增加授权或自动触发其他 task；
-3. Agent 自主完成当前结果所需的局部观察、推理、工具调用和验证；
+2. 所选 task 对本轮意图有最高解释优先级，只有 Human 明确重新选择才改变，不增加操作授权；
+3. Agent 在 task 内解释 prompt 并自主完成必要辅助分析，实质改写在结果中披露，不因措辞冲突确认、切换或降低状态；
 4. 未确认状态不能自动晋升为 Fact、Decision、Constraint 或权限；
 5. Candidate、Resolved Choice、Planned Change、Authorized Change 与 Actual Change 保持分离；
 6. Related to request、allowed to change 和 required to change 不是同一判断；
@@ -41,7 +41,7 @@ tasks/<task>.md
 + templates/<task>.md
 ```
 
-`core.md` 是共享语义 owner，但不是没有 loader 的 harness 必须额外注入的文件；task prompt 已保留当前 task 所需的最短操作化规则。
+`core.md` 是共享语义 owner，但不是没有 loader 的 harness 必须额外注入的文件；每个 task prompt 已保留 task 内请求解释、改写披露、完成度和权限边界的简短规则，三文件组合可以独立使用。
 
 Human 可以在当前委托中手动附加适用 Lens：
 
@@ -52,7 +52,7 @@ Task Contract
 → specialized micro ReAct
 ```
 
-普通 Lens 不改变 task 自包含行为或 projection。带 `effects` 的 Lens 由 Human 显式选择后，只执行 metadata 声明的 protocol-owned sidecar，并通过现有 `Context` 投影 receipt。`tasks/*.md` 不分别导入 Lens；没有显式 Lens 时，上述基础组合、输出和工具自治原样运行。
+普通 Lens 不改变所选 task 的主要责任、请求解释规则或 projection。带 `effects` 的 Lens 由 Human 显式选择后，只执行 metadata 声明的 protocol-owned sidecar，并通过现有 `Context` 投影 receipt。`tasks/*.md` 不分别导入 Lens；没有显式 Lens 时，上述基础组合、输出和工具自治原样运行。
 
 ## Project Context Layer
 
