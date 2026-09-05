@@ -1,166 +1,108 @@
 # Human ReAct
 
-Human ReAct 是一套面向现代 Agent harness 的轻量 Prompt Workspace。它把 Human 视为宏观 ReAct loop 的中心：Human 维持目标、上下文和授权边界，选择本轮希望得到的结果；Agent 在该委托内自主观察、推理、调用工具、执行和验证，然后 Handback。
+Human ReAct 是面向现代 Agent harness 的轻量 Prompt Workspace。Human 维持宏观目标、context、价值取舍和现实授权，选择本轮需要的结果；Agent 在当前委托内自主观察、推理、使用工具、执行和验证，然后 Handback。
 
 它不是线性 workflow、自动 task graph、Agent orchestration 平台或文档维护系统。
 
-## Operating Model
+## Result-oriented Tasks
 
-```text
-Orient / Review：形成 Scoped Explanatory Model 或 Evidence Context
-                         ↓
-Human：解释反馈并选择下一轮承诺层级
-                         ↓
-Shape / Plan / Build：结构化 Decision Space、形成 Execution Model 或改变 Reality
-                         ↓
-Human 决定是否发起 Orient / Review、重复当前 task 或改选其他 task
-```
+Task 按 Human 当前需要的结果选择，而不是按最终项目目标选择：
 
-Task 表示本轮委托的结果类型和操作边界，不表示固定流程阶段，也不要求 Human 调度 Agent 的内部认知步骤。搜索、追踪、diagnosis、局部规划和验证都是 Agent 可以在当前 task 内按需使用的能力。
-
-## Tasks
-
-第一版包含五种彼此独立的委托模式：
-
-| Task | Human 想获得的结果 | 状态转换 |
+| Task | Human 当前需要 | State Transition |
 | --- | --- | --- |
-| `orient` | 理解一个对象的背景、结构、机制、关系或不同观察角度 | Subject + Learning Need + Available Context → Scoped Explanatory Model |
-| `review` | 对现状、问题、产物或判断形成 evidence-backed context | Existing Target → Evidence Context |
-| `shape` | 对齐 Human 表达与系统语义，构造有边界的决策空间 | Human Expression + System Context + Agent Modeling Contribution → Decision Space |
-| `plan` | 在授权边界内关闭 decision，明确计划修改面并形成可执行、可验证的单一路径 | Decision Space + Evidence + Delegation → Execution Model |
-| `build` | 在实际授权范围内实现并验证目标，以现实反馈关闭当前 delivery loop | Requested Outcome + Authorized Change → Actual Change + Verification + Loop Closure Observation |
+| `orient` | 理解背景、结构、机制或不同视角 | Subject + Learning Need + Available Context → Scoped Explanatory Model |
+| `review` | 判断现状、gap、原因或适用性 | Existing Target → Evidence Context |
+| `shape` | 对齐语义并构造尚未承诺的方向 | Human Expression + System Context + Agent Modeling Contribution → Decision Space |
+| `plan` | 判断必要修改并形成执行方案 | Decision Space + Evidence + Delegation + Current State → Required Delta + Execution Model when needed |
+| `build` | 确认或改变现实并验证 | Requested Outcome + Current Reality + Authorized Change → Verified Reality + Actual Change when required + Loop Closure Observation |
 
-Human 可以直接选择、跳过或重复任意 task。选择 task 不证明其他 task 已完成，也不会扩大 user prompt 的授权。详细职责、自治边界、Closure Check 和完成条件统一见 [Tasks README](.human-react/tasks/README.md)。
+搜索、追踪、diagnosis、工具调用和验证是 task 内部能力。Human 可以直接选择、跳过或重复任意 task；系统不会自动转换 task。
 
-完整的多尺度循环和 Mermaid 图见 [实际循环](.human-react/loop.md)。
-
-## Epistemic Orientation
-
-Human ReAct 不是一套完整的哲学认识论或认知科学模型，但它把一种认识论取向操作化为 Human–Agent 协作协议：task 不描述 Agent 内部必须依次经历的思考步骤，而是规定本轮要形成哪一种认识、承诺或现实状态，以及这些状态以什么证据、判断和授权为边界。
-
-| Task | 认识与实践作用 |
-| --- | --- |
-| `orient` | 围绕 Human 的 Learning Question 形成 Scoped Explanatory Model，区分 target-specific fact、general model、interpretation、perspective 与 unknown，但不形成评价或承诺 |
-| `review` | 从现实、产物或既有判断中取得 evidence，区分事实、推断、假设、条件分析与未知，形成可供继续判断的 Evidence Context |
-| `shape` | 在保留 Human Anchor 的前提下，对 Human 表达、系统语义和 Agent 建模贡献进行可修正的解释，显化候选、约束、区分标准与需要 Human 决定的例外 |
-| `plan` | 从当前请求重新建立 delegation，将 Decision Space 与 Evidence 转化为单一 Execution Model，体现从认识到 Planned Change 的过渡 |
-| `build` | 依据实际授权介入 Reality，以 Verification 约束完成声明，并用 Loop Closure Observation 将当前 delivery loop 的现实结果和 material delta 返回 Human |
-
-大循环由 Human Expression、Working Model、Evidence、Commitment 与 Reality 之间可能存在的 material misalignment 驱动。Misalignment 不只包括两个事实主张不能同时成立的逻辑矛盾，也包括语义歧义、claim 与 evidence 冲突、goal 与 constraint 张力、plan 与实际条件偏离、expected 与 actual gap，以及 desired action 与当前授权不一致。事实冲突可以调查，语义歧义可以修正，实践方案可以调整；价值冲突需要 Human 选择，权限缺口则必须 Handback，不能都被包装成等待 Agent 发现的客观真相。
-
-这些冲突默认不会被路由给 Human 逐项仲裁。所有 task 共享 `Bounded Reconciliation`：Agent 在当前 authority 内自主解释、验证、选择 working basis 或保留有意义的差异，并继续完成当前 task。实质影响结果的协调必须向 Human 披露；只有创建新的规范性决定、scope、权限或风险承诺时才必须 Handback。
+## Core Model
 
 ```text
-Potential Misalignment
-Human Expression / Working Model / Evidence / Commitment / Reality
-        ↓
-Orient / Review / Shape
-解释或暴露事实、语义、规范、权限与实践张力
-        ↓
-Human + Agent
-在各自 authority 内修正理解或关闭 decision
-        ↓
-Plan / Build
-形成承诺并对 Reality 进行授权干预
-        ↓
-Verification
-产生新的 observation 与 evidence
-        ↓
-Warranted Provisional Closure
-        ↺ 新 evidence 或新目标可以重新打开循环
+Human chooses a result and boundary
+→ Agent runs a bounded micro ReAct
+→ Task Result exposes outcome, evidence and material boundaries
+→ Human interprets the result and chooses the next loop
 ```
 
-这是一种常见的信息流，不是系统自动执行的 task sequence。每个 task 仍可被直接选择、跳过或重复。
+核心约束：
 
-Shape、Plan 与 Build 之间使用轻量 `Commitment Grounding`，避免把认知可能性、实践选择和现实授权混为一体：
+- Human 是 macro loop 的 center agent；
+- task 名称、前序结果、Memory、普通 Lens 或 Human 沉默不产生现实授权；Human 显式选择 effectful Lens 时只授权其 declared sidecar；
+- Fact、Assumption、Conditional、Candidate、Decision、Planned Change、Authorized Change 和 Actual Change 不自动相互晋升；
+- Agent 在委托内自主协调冲突，material reconciliation 对 Human 可见；
+- 新目标、显著 scope expansion、新权限或重要风险选择需要 Handback；
+- Build 结束当前 delivery loop，但只有 Human 能开启下一 loop。
 
-```text
-Candidate consideration ≠ Human Decision
-Resolved Choice ≠ Build Authorization
-Planned Change ≠ Authorized Change ≠ Actual Change
-```
+完整共享协议见 [Human ReAct Core](.human-react/core.md)，task 选择和 prompt 见 [Tasks](.human-react/tasks/)，实际循环见 [Loop](.human-react/loop.md)，输出格式见 [Templates](.human-react/templates/)。
 
-Shape 中未被排除的普通 means-level Candidate，可以在 Human 显式发起 Plan 后由 Agent 在当前边界内评估和关闭；这不表示 Human 已逐项接受 Candidate。Plan 的 Change Surface 只是 Planned Change；只有明确的 Build execution request 所引用或无歧义延续、且仍符合当前 scope、permission 和 risk boundary 的部分，才成为 Authorized Change。
+## Project Layers
 
-循环同时包含两种相反的 `direction of fit`：Orient 使 Human 获得有边界、可修正的 explanatory model；Review 使 Working Model 接受 Reality 校正，是 `model ← reality`；Build 使 Reality 在实际授权内接近 Human 的 Desired Effect，是 `authorized intention → reality`；Shape 与 Plan 位于判断和行动之间，区分规范选择并建立实践承诺。因此系统既包含 understanding、truth-seeking，也包含经过授权的 world-making。
+| Layer | Purpose | Runtime |
+| --- | --- | --- |
+| [`.human-react/**`](.human-react/) | 可嵌入的 task、共享协议和 projection | 是 |
+| [`design/**`](design/) | 已采纳设计的理由与 tradeoff | 否 |
+| [`sandbox/**`](sandbox/) | 历史草案与外部参考 | 否 |
 
-这个模型隐含几项基本立场：Reality 不由 Human 或 Agent 的表达单独决定，判断需要接受可观察 evidence 的约束；当前理解是可修正的 working view，不能把 Assumption、Conditional 或 Candidate 静默升级为事实；认识的价值不仅在于描述，也在于支持行动并经受结果验证；认知分布在 Human、Agent、conversation、工具、证据与现实对象构成的循环中，而不是完全属于单一主体。
-
-Truth 在这里是持续校准 inquiry 的 `regulative ideal`，不是某轮 task 可以永久占有的终止状态。一次循环的闭合只表示当前问题已得到足够回答、重要 claim 没有超过 evidence boundary、需要 Human 决定的 choice 与授权边界已经可见、实际变化经过了相称验证，并且 control 已经 Handback。这个 `Warranted Provisional Closure` 可以被后续 evidence、Reality change 或新目标重新打开。
-
-认识状态、规范承诺和执行授权仍然彼此独立。Evidence 可以支持“当前是什么”或“为什么发生”，但不能单独决定“应当追求什么”、Human 应接受什么风险，或 Agent 是否获得改变现实的权限。Human 维持目标、价值取舍和外部效果授权；Agent 只在当前委托内自治。
-
-这一认识论定位不是完成度声明。当前 `orient`、`review`、`shape`、`plan` 与 `build` 已具备第一版的解释、证据纪律、语义对齐、decision closure、现实执行和可错性边界，但知识来源分离、证据质量、evidence 到 finding 的推理根据、主动反证、描述性事实与规范性决定的进一步分离，以及跨 task 保留 claim 的来源、范围和失效条件，仍是后续需要验证和完善的方向。
-
-## Core Boundaries
-
-Human 控制宏观循环和外部效果授权；Agent 控制当前委托内的 micro ReAct。task 之间不自动转换，任何名称、前序结果、Memory 或 Lens 都不能代替当前授权。完整不变量见 [Workspace README](.human-react/README.md)，task 自治、Handback 与 Closure 规则见 [Tasks README](.human-react/tasks/README.md)，公共输出边界见 [Common Chat Projection](.human-react/templates/common.md)。
+Design 不定义运行行为，sandbox 内容也不会自动晋升为当前设计或协议。
 
 ## Current Status
 
-当前已经形成的是文档级设计：
+五个 task 均已有第一版 prompt 和 chat projection。当前系统是文档级协议，没有自动 task selection、runtime、adapter、generator 或 installer。
 
-- [`tasks/README.md`](.human-react/tasks/README.md) 定义 task 体系；
-- [`loop.md`](.human-react/loop.md) 描述 Human 维持的实际循环；
-- [`templates/README.md`](.human-react/templates/README.md) 提供 projection 导航，[`templates/common.md`](.human-react/templates/common.md) 定义公共输出协议；
-- [`memory/**`](.human-react/memory/) 与 [`lenses/**`](.human-react/lenses/) 描述尚未接入的 Project Context Layer。
+[`lenses/**`](.human-react/lenses/) 已提供 manual runtime composition v1：Human 为当前 task 显式选择 Lens，Agent 解析其直接依赖后形成 specialized micro ReAct。普通 Lens 不增加权限；Human 显式选择带 `effects` 的 Lens 时，只授权 metadata 声明的 protocol-owned sidecar。
 
-`orient`、`review`、`shape`、`plan` 与 `build` 均已有第一版 task prompt 和 chat projection。项目没有实际 Project Profile、Topic Memory、正式 Lens、自动加载、Memory 写入、adapter、schema、生成器或安装器。
+[`memory/**`](.human-react/memory/) 已提供 episode-based Memory Capture v1：`memory-capture` Lens 为每次 Orient、Review 或 Build invocation 创建一个新文档，历史 capture 只由 Human 点名后手动加载。当前没有自动 loader、recall、index、resolver、deduplication、consolidation、schema validator、Tool provisioning 或 Skill。
 
 ## Directory
 
 ```text
-.human-react/
+human_react/
 ├── README.md
-├── loop.md
-├── tasks/
+├── design/
 │   ├── README.md
-│   ├── orient.md
-│   ├── review.md
-│   ├── shape.md
-│   ├── plan.md
-│   └── build.md
-├── templates/
+│   ├── lens-model.md
+│   ├── memory-model.md
+│   └── task-model.md
+├── .human-react/
 │   ├── README.md
-│   ├── common.md
-│   ├── orient.md
-│   ├── review.md
-│   ├── shape.md
-│   ├── plan.md
-│   └── build.md
-├── memory/
-│   ├── README.md
-│   └── topics/
-│       └── README.md
-└── lenses/
-    ├── README.md
-    ├── perspectives/
-    │   └── README.md
-    ├── postures/
-    │   └── README.md
-    └── project/
-        └── README.md
+│   ├── core.md
+│   ├── loop.md
+│   ├── tasks/
+│   ├── templates/
+│   ├── memory/
+│   │   ├── README.md
+│   │   └── captures/        # 首次真实 capture 时创建
+│   └── lenses/
+│       ├── README.md
+│       ├── memory-capture.md
+│       ├── poc.md
+│       └── separated-analysis.md
+└── sandbox/
+    ├── todo/
+    └── workflow/
 ```
 
 ## Documentation Ownership
 
-| Document | Sole Responsibility |
+| Owner | Responsibility |
 | --- | --- |
-| [`README.md`](README.md) | 项目定位、公开入口、当前状态和文档导航 |
-| [`.human-react/README.md`](.human-react/README.md) | 可嵌入 Workspace 的入口、最小不变量和模块状态 |
-| [`tasks/README.md`](.human-react/tasks/README.md) | task 共同规则、详细职责、边界和完成条件 |
-| [`loop.md`](.human-react/loop.md) | Human 维持的宏观循环、同-task 循环和反馈路径 |
-| [`templates/README.md`](.human-react/templates/README.md) | chat projection 的目录导航、组合方式和文件职责 |
-| [`templates/common.md`](.human-react/templates/common.md) | Task Result 的公共骨架、状态、语义边界和 material disclosure |
-| [`memory/README.md`](.human-react/memory/README.md) | 未接入的 Project Memory 候选模型 |
-| [`lenses/README.md`](.human-react/lenses/README.md) | 未接入的 Lens 分类、联动和共同边界 |
+| [`.human-react/core.md`](.human-react/core.md) | 跨 task 运行语义 |
+| [`.human-react/tasks/`](.human-react/tasks/) | taxonomy、Prompt Contract 与 task-specific 行为 |
+| [`.human-react/templates/`](.human-react/templates/) | 公共和 task-specific chat projection |
+| [`.human-react/loop.md`](.human-react/loop.md) | task 之间的 Human-controlled loop |
+| [`.human-react/lenses/`](.human-react/lenses/) | Lens contract、索引与正式 Lens |
+| [`.human-react/memory/README.md`](.human-react/memory/README.md) | Memory load、episode capture 与 Human maintenance |
+| [`design/task-model.md`](design/task-model.md) | 五 task 的非运行时设计理由 |
+| [`design/lens-model.md`](design/lens-model.md) | Lens 分工、平铺结构与显式组合的设计理由 |
+| [`design/memory-model.md`](design/memory-model.md) | 原子 capture、非增量维护与 macro loop 的设计理由 |
 
-详细文档只能定义其负责的语义；其他 README 应链接而不是复制。
+其他文档只提供摘要和链接，不建立平行定义。
 
 ## Relationship With Workflow Lite
 
-[`sandbox/workflow`](sandbox/workflow/) 中的 Workflow Lite 只作为结构和设计思路参考。Human ReAct 借鉴显式 task、规范输出、Lens 和外部化上下文的价值，但不是兼容版本，也不继承其 task taxonomy、session lifecycle、artifact、persist、sync 或 archive 体系。
+[`sandbox/workflow`](sandbox/workflow/) 只提供结构和思路参考。Human ReAct 借鉴显式 task、规范输出、Lens 和外部化 context 的价值，但不兼容其 taxonomy、session lifecycle、artifact、persist、sync 或 archive 体系。
 
-核心差异是：
-
-> Human 维护目标、context、授权和反馈循环；task 表达本轮希望更新的状态，Agent 负责委托内部的 micro ReAct loop。
+核心差异是：Human 维护目标、context、授权和反馈循环；task 表达本轮需要更新的状态，Agent 负责委托内部的 micro ReAct。

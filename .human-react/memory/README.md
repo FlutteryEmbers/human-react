@@ -1,91 +1,105 @@
-# Project Memory Design Reservation
+# Human ReAct Memory
 
-本目录记录 Project Context Layer 中 Memory 的 high-level 候选设计。它目前不是主系统的一部分，不保存实际项目记忆，也不定义运行时读写行为。
+Memory 是由 Human 手动选择进入当前 task 的 project-specific additional context。它保存有来源和边界的稳定项目经验，不是 source of truth、task router、Lens selector、现实授权或 Agent 的隐藏长期状态。
 
-## Candidate Model
+Memory v1 使用 episode-based capture：Human 显式选择 [`memory-capture`](../lenses/memory-capture.md) Lens 时，每次 task invocation 创建一个新文档；文档可以包含多条合格记录，但不读取、合并、更新或总结历史 Memory。
 
-Memory 不复刻 Workflow Lite 的 session lifecycle。它不使用 inbox、threads、archive、artifact type、persist 或 sync，而是提供两层项目上下文：
+## Manual Loading
 
-| Layer | Candidate Responsibility | Loading Model |
-| --- | --- | --- |
-| Project Profile | Human 确认的当前 posture、project-wide/scoped constraints、preferences、Demo Contract、upgrade triggers 和 Lens bindings | 未来可作为短小常驻 context |
-| Topic Memory | 某个 bounded scope 的事实、决定、调查结论、heuristics 和 open questions | 未来按 target 定向 recall |
+Human 必须在当前请求中点名一个或多个 capture 文件，并表达将其用于当前 task 的意图，Memory 才进入 context。目录存在、文件相关、scope match、Agent inference 或前序 task 使用过该文件，都不能代替手动加载。
 
-候选目录形态：
+加载后的 Memory：
 
-```text
-memory/
-├── README.md
-├── profile.md           # 未来由 Human 显式创建；当前不存在
-└── topics/
-    └── <topic>.md       # 未来按需创建；当前不存在
-```
+- 只提供 working context，不自动成为当前 Fact、Decision 或 Constraint；
+- 仍需检查 entry 的 Source、Scope、Basis、Boundary 与 Invalid When；
+- 不激活 Lens、不扩大 task scope、不授权 Build 或其他现实 effect；
+- 默认只读，不因当前 evidence、task result 或 Agent reconciliation 被回写。
 
-## Normative And Descriptive Memory
+## Capture Document Contract
 
-Project Profile 主要保存 Normative Memory：
-
-- `[Decision]`：Human 明确确认的当前决定；
-- `[Constraint]`：适用 scope 内必须遵守的边界；
-- `[Preference]`：user prompt 未另行说明时采用的默认倾向；
-- current posture、Demo Contract 与 Lens bindings。
-
-Topic Memory 主要保存 Descriptive Memory：
-
-- `[Fact]`、`[Evidence]`、`[Assumption]`、`[Open]`；
-- `[Invariant]`、`[Lesson]` 与 `[Heuristic]`，并保留相应证据强度；
-- 复杂调查得到但仍可能变化的 current understanding。
-
-Orient Result 是当前 conversation 中的 Scoped Explanatory Model，不会因为解释具有复用价值就自动成为 Project Memory。将其中的背景、模型或解释晋升为持久 context 需要未来单独设计的 Human-governed promotion；当前系统不提供该能力。
-
-Normative Memory 可以约束未来 task 的默认做法，但不能单独授权 Build、扩大 scope 或允许新的外部效果。Descriptive Memory 是 context cache，不是 source of truth；高影响事实仍需回到当前代码、测试、规范或 Human decision 验证。
-
-## Lens Binding Concept
-
-未来的 `profile.md` 可以由 Human 显式声明 scoped binding，例如：
+显式选择 `memory-capture` 后，在开始当前 task 时立即创建：
 
 ```text
-project-wide          -> Posture Lens: poc
-parser/call-chain     -> Project Trace Lens: kotlin-call-chain
+.human-react/memory/captures/<YYYYMMDD-HHMMSS>-<task>.md
 ```
 
-候选组合关系为：
+时间使用当前环境的本地时间；同秒发生文件名冲突时依次增加 `-2`、`-3`。目录不存在时随首个文档创建。一个 invocation 只创建一个文档，之后所有合格内容进入该文档；此前存在的 capture 文档不得修改。
 
-```text
-Task
-+ Project Profile
-+ Relevant Topic Memory
-+ Bound Lens
-= Project-specialized Task Behavior
+新文档使用：
+
+```yaml
+---
+id: 20260905-143210-review
+kind: memory-capture
+lens: memory-capture
+task: review
+created_at: 2026-09-05T14:32:10+08:00
+---
+
+# Memory Capture
 ```
 
-只有 Project Profile 中明确的 Human decision 才可能激活持续 Lens。普通 Topic Memory、Reusable Insight 或 Agent inference 不能创建 binding，也不能自动把经验晋升为项目规则。
+- `id` 必须等于文件名 stem，发生冲突时使用相同数字后缀；
+- `kind` 固定为 `memory-capture`，`lens` 固定为 `memory-capture`；
+- `task` 使用当前 `orient | review | build`；
+- `created_at` 使用带 UTC offset 的 ISO 8601 时间。
 
-## Candidate Priority
+即使本轮没有合格记录，也保留只有 front matter 和标题的文档，不自动删除或添加总结。成功创建后，当前 Task Result 在 `Context` 中披露 `Memory Capture: <path>`。
 
-未来接入时建议遵循：
+## Eligible Entries
 
-```text
-Current Human Prompt / Explicit Authorization
-> Scoped Human Decision and Constraint in Project Profile
-> Active Posture Lens
-> Scoped Project Trace Lens
-> Topic Memory Fact / Heuristic
-> Agent Default
+一个 capture 文档可以包含任意数量、分别通过 Capture Gate 的条目。没有 document-level Summary，也不为了填满结构而创建内容。
+
+### Operational Friction
+
+只记录 Agent 与真实工具或环境交互时发生的问题及已验证解决方案：
+
+```markdown
+## Operational Friction — <title>
+
+- Trigger: <触发条件>
+- Environment: <相关环境>
+- Observed Failure: <实际失败>
+- Resolution: <已成功执行的解决方法>
+- Verification: <成功 evidence>
+- Applies When: <复用条件>
+- Invalid When: <失效条件>
 ```
 
-当前 prompt 可以覆盖本轮默认值，但不会自动修改 Project Profile。发生实质冲突时，当前 task 先在自身 authority 内进行 Bounded Reconciliation，采用或保留适合本轮的 working basis，并向 Human 披露会影响结果的协调。只有需要将单轮 exception 晋升为持久 Project Profile、Lens binding 或其他 normative policy 时，才需要 Human 作出长期 context decision。
+必须同时满足：失败真实发生并对 task 有实际影响；Resolution 已成功执行；Verification 支持成功 claim；相同环境中可能复发；适用边界明确。Review 只有实际验证 Resolution 后才能记录，未解决 diagnosis 不进入 Memory。
 
-Observed evidence 约束 descriptive conclusion，但不会自动覆盖 Project Profile 中 Human 已确认的 Decision 或 Constraint。两者不一致时，task 应区分 actual state 与 normative state，而不是静默改写其中一方。
+### Project Bearing
 
-## Non-integration Status
+只记录项目特定、来源明确、跨 task 有复用价值且重新发现成本较高的稳定坐标：
 
-当前必须保持：
+```markdown
+## Project Bearing — <title>
 
-- 不创建实际 `profile.md` 或 Topic Memory；
-- 不从 task 自动 recall 或写入 Memory；
-- Closure Check 与 Reusable Insight 不自动进入 Memory；
-- Memory 不激活 Lens、不改变 template、不参与授权判断；
-- 没有 memory task、loader、binding resolver、schema、index 或 archive。
+- Statement: <稳定项目背景>
+- Basis: observed | human-confirmed
+- Source: <项目 evidence 或 Human confirmation>
+- Scope: <适用范围>
+- Invalid When: <需要重新检查的条件>
+- Boundary: <不能据此建立什么>
+```
 
-只有在真实项目中先验证最小的 Project Profile + Posture Lens 组合后，才能决定是否接入主系统。
+合格内容包括 source of truth、真实入口、项目术语、稳定模块责任、pipeline boundary 或运行约定。临时实现状态、一般知识和没有来源的解释不进入 Memory。
+
+## Capture Boundaries
+
+- 不捕获未验证 workaround、普通工具流水账、Shape Candidate、Planned Change、Agent 推断的 Human preference、credential、敏感输出或权限绕过方法；
+- 不把当前任务的新代码或单次测试自行晋升为普遍 Invariant；
+- 不读取历史 capture 进行自动 recall、去重、冲突消解、合并、压缩或 consolidation；
+- 不修改已有 capture；同一 episode 内只填充本轮新建的文档；
+- capture document 是 protocol-owned sidecar，不改变当前 task 的结果类型，也不修改被 Orient 或 Review 处理的 target；
+- Lens selection 只授权其 metadata 声明的目录、document 数量和生命周期，不提供其他持久写入权限。
+
+## Human Maintenance
+
+Human 以整个 episode 文档为主要治理单位，可以删除不希望保留的 capture，也可以显式要求局部编辑。系统不自动拆分、覆盖、更新或删除。
+
+保留文档不表示 Human 已阅读、同意或确认其中内容；手动加载也只表示允许它进入当前 context。新 evidence 与旧 Memory 冲突时，当前 task 按 Bounded Reconciliation 形成 working basis，但不回写旧文档。
+
+## V1 Boundary
+
+当前没有 Profile、Topic Memory、自动 loader、recall、index、resolver、deduplication、consolidation、schema validator 或 archive lifecycle。Agent 依据文档 contract 手动解释 Lens metadata；首个真实 capture 才创建 `memory/captures/`，本仓库不提供示例或空目录。

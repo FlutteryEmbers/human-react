@@ -1,61 +1,73 @@
 # Human ReAct Workspace
 
-本目录是可嵌入宿主项目的 Human ReAct Prompt Workspace。本文只负责 Workspace 导航、最小不变量和模块接入状态；task、loop、template 与 Project Context 的具体语义由各自目录文档负责。
+本目录是可嵌入宿主项目的运行协议。Human 维持宏观目标、context 和权限边界，通过 user prompt 选择本轮结果；Agent 在当前委托内运行 micro ReAct，并在完成或触及边界后返回 Human。
 
-## Core Model
-
-Human 维持宏观目标、上下文和授权边界，并通过 user prompt 选择本轮希望得到的结果。Agent 在当前委托边界内自主运行 micro ReAct loop；完成或触及边界后返回 Human，由 Human 决定下一轮如何继续。
-
-五个顶层 task 是 `orient / review / shape / plan / build`。它们是独立的结果委托，不是固定 workflow stage。统一入口和详细规则见 [Tasks README](tasks/README.md)，实际反馈循环见 [Loop](loop.md)。
+`orient / review / shape / plan / build` 是独立的结果委托，不是固定 workflow stage。
 
 ## Minimum Invariants
 
-1. Human 负责宏观目标、授权边界、结果解释和下一轮委托；
-2. task 表示本轮结果类型，不表示固定流程位置；
-3. Agent 的自治覆盖当前 task 所需的局部观察、推理、工具调用和验证；
-4. task 名称、前序结果、Memory 或 Lens 本身不构成执行授权；
-5. task 之间不存在自动转换；
-6. Candidate、Human Decision、Resolved Choice、Planned Change、Authorized Change 与 Actual Change 不能相互自动晋升；
-7. Human 显式发起 Plan 只委托当前边界内的 means-level decision closure，不构成 Build authorization；
-8. Agent 默认在当前 authority 内自主协调 context 冲突，实质影响结果的 reconciliation 必须向 Human 披露；
-9. 改变目标、显著扩大 scope、取得新权限或作出重要取舍时必须 Handback；
-10. Task Closure 是内部核对，不生成公共必填 `Reflection` 字段；
-11. Build 以 verified reality 和 Loop Closure Observation 结束当前 delivery loop，但不决定是否开启下一 loop；
-12. task 完成后返回结果和边界，不自动开始下一 task。
+1. Human 控制 macro loop、价值取舍和现实干预权限；
+2. task 名称只决定结果类型，不增加授权或自动触发其他 task；
+3. Agent 自主完成当前结果所需的局部观察、推理、工具调用和验证；
+4. 未确认状态不能自动晋升为 Fact、Decision、Constraint 或权限；
+5. Candidate、Resolved Choice、Planned Change、Authorized Change 与 Actual Change 保持分离；
+6. Related to request、allowed to change 和 required to change 不是同一判断；
+7. Agent 默认有界协调 context 冲突，material reconciliation 对 Human 可见；
+8. Plan 不穷举完整 Effect Surface，Build 不因 patch 小或位于 Allowed Scope 就推断扩张安全；
+9. 新目标、显著 scope expansion、新权限、重要风险或未授权 external effect 要求 Handback；
+10. Task Closure 不生成必填 Reflection、未声明的持久化或自动下一步；只有 Human 显式选择 effectful Lens 才执行其 declared sidecar；
+11. Build 以 verified reality 结束当前 delivery loop，只有 Human 能开启下一 loop。
+
+详细定义见 [Core](core.md)。
 
 ## Module Map
 
-| Module | Responsibility | Current Status |
+| Module | Responsibility | Status |
 | --- | --- | --- |
-| [`tasks/**`](tasks/) | task 共同规则、详细定位与 task prompt | Orient / Review / Shape / Plan / Build v1 已设计 |
-| [`loop.md`](loop.md) | Human 宏观循环、同-task 收敛和反馈路径 | 设计文档 |
-| [`templates/**`](templates/) | Human-readable conversation checkpoint | Orient / Review / Shape / Plan / Build v1 已设计 |
-| [`memory/**`](memory/) | Project Profile 与 Topic Memory 候选模型 | 未接入的 design reservation |
-| [`lenses/**`](lenses/) | Perspective、Posture 和 Project Trace Lens 候选模型 | 未接入的 design reservation |
+| [`core.md`](core.md) | 跨 task 运行语义 | v1 |
+| [`tasks/**`](tasks/) | taxonomy、Prompt Contract 与 task prompts | 五个 task v1 |
+| [`templates/**`](templates/) | 公共和 task-specific chat projection | 五个 projection v1 |
+| [`loop.md`](loop.md) | Human-controlled macro 与 delivery loops | 设计文档 |
+| [`memory/**`](memory/) | 手动加载的 episode-based project context | Memory Capture v1 |
+| [`lenses/**`](lenses/) | Human 显式选择的 runtime modifier 与 declared sidecar | manual composition v1 |
 
-## Project Context Layer（未接入）
+## Runtime Composition
 
-Memory 与 Lens 未来可能共同提供项目特化：
+一个自包含 task contract 由当前 task prompt 与两层 projection 组成：
 
 ```text
-Task            Human 本轮需要的结果类型
-Project Profile 当前 posture、约束、偏好和 Lens bindings
-Topic Memory    按 scope 召回的项目理解
-Lens            将项目 context 转化为 task 内行为
+tasks/<task>.md
++ templates/common.md
++ templates/<task>.md
 ```
 
-当前没有实际 `profile.md`、Memory topic 或正式 Lens，也没有自动 recall、memory write、scope matching、binding resolution 或 prompt loading。`tasks/**` 与 `templates/**` 不消费这层内容，Memory/Lens 不参与 task 选择、Handback 或授权判断。
+`core.md` 是共享语义 owner，但不是没有 loader 的 harness 必须额外注入的文件；task prompt 已保留当前 task 所需的最短操作化规则。
 
-Project Context Layer 的候选模型分别见 [Memory](memory/README.md) 与 [Lenses](lenses/README.md)。只有在后续确定读写权限、优先级、激活、组合、加载和失效检查规则后，它才可能接入主系统。
+Human 可以在当前委托中手动附加适用 Lens：
 
-## Documentation Rule
+```text
+Task Contract
++ Human-selected Lens
++ resolved direct dependencies
+→ specialized micro ReAct
+```
 
-每个概念只在其 owner 文档中定义：
+普通 Lens 不改变 task 自包含行为或 projection。带 `effects` 的 Lens 由 Human 显式选择后，只执行 metadata 声明的 protocol-owned sidecar，并通过现有 `Context` 投影 receipt。`tasks/*.md` 不分别导入 Lens；没有显式 Lens 时，上述基础组合、输出和工具自治原样运行。
 
-- task 语义归 [`tasks/README.md`](tasks/README.md)；
-- 循环关系归 [`loop.md`](loop.md)；
-- 公共输出协议归 [`templates/common.md`](templates/common.md)，目录导航归 [`templates/README.md`](templates/README.md)；
-- task-specific 输出归对应的 `templates/<task>.md`；
-- Memory 与 Lens 的候选设计归各自目录。
+## Project Context Layer
 
-其他文档只提供摘要和链接，不建立平行协议。
+Memory 只在 Human 点名具体 capture 文件时手动进入当前 task。显式选择 [`memory-capture`](lenses/memory-capture.md) Lens 会为本轮创建一个 episode 文档；此前的 capture 只读，不自动 recall、合并、总结、更新或加载。
+
+当前没有自动 loader、resolver、installer、registry、schema validator、Tool provisioning、Memory index 或 consolidation。Memory、recommendation、scope match 和 capability availability 都不能替 Human 选择 Lens；只有显式选择 effectful Lens，才授权其 metadata 声明的固定 sidecar。具体规范见 [Memory](memory/README.md) 和 [Lenses](lenses/README.md)。
+
+## Documentation Ownership
+
+- 共享运行语义归 [`core.md`](core.md)；
+- task taxonomy 和 Prompt Contract 归 [`tasks/README.md`](tasks/README.md)，具体行为归对应 task 文件；
+- 公共输出归 [`templates/common.md`](templates/common.md)，task-specific 输出归对应 template；
+- task 关系归 [`loop.md`](loop.md)；
+- Lens contract、索引与正式 Lens 归 [`lenses/**`](lenses/)；
+- Memory load、capture 与治理归 [`memory/README.md`](memory/README.md)；
+- 非运行时设计理由归 [`../design/`](../design/)。
+
+其他文档只提供摘要或 task-local 操作化表达，不建立平行协议。
