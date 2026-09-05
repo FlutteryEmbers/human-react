@@ -8,9 +8,9 @@
 
 1. Human 控制 macro loop、价值取舍和现实干预权限；
 2. 所选 task 对本轮意图有最高解释优先级，只有 Human 明确重新选择才改变，不增加操作授权；
-3. Agent 在 task 内解释 prompt 并自主完成必要辅助分析，实质改写在结果中披露，不因措辞冲突确认、切换或降低状态；
+3. Agent 在 task 内解释 prompt，并完成该 task 明确允许且直接支持主要结果的辅助分析；实质改写在结果中披露，不因措辞冲突确认、切换或降低状态；
 4. 未确认状态不能自动晋升为 Fact、Decision、Constraint 或权限；
-5. Candidate、Resolved Choice、Planned Change、Authorized Change 与 Actual Change 保持分离；
+5. Candidate、Resolved Choice、Planned Change、Authorized Change 与 Actual Change 保持分离；现实操作授权只来自 Human 明确请求或其无歧义引用且仍有效的既有委托；
 6. Related to request、allowed to change 和 required to change 不是同一判断；
 7. Agent 默认有界协调 context 冲突，material reconciliation 对 Human 可见；
 8. Plan 不穷举完整 Effect Surface，Build 不因 patch 小或位于 Allowed Scope 就推断扩张安全；

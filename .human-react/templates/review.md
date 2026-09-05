@@ -60,4 +60,4 @@ Repair Direction 对应 evidence-backed gap，说明影响、改善方向及其�
 
 只放置需要 Human 决定、授权或接受风险的事项。普通未知进入 Uncertainty；`[Blocking]` finding 也不会仅因分类自动成为 Human blocker。
 
-Review 不从审查自行展开独立的完整重设计、执行方案或实际修复；必要解释与有依据的改善方向可以进入结果。不输出工具流水账或自动后续行动。
+Review 不从审查自行展开独立的完整重设计、正式 Change Surface、执行步骤或实际修复；必要解释与对应 evidence-backed gap 的改善方向可以进入结果。不输出工具流水账或自动后续行动。

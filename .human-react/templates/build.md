@@ -10,6 +10,8 @@ Build 返回 Reality Checkpoint 与 Loop Closure Observation。使用 [`common.m
 
 Status 按 Build 下解释后的现实结果请求判断，实质改写遵循公共 Request Interpretation。验收评价限定于请求与 evidence 覆盖，不扩大为整个产品正确的保证。Actual Change 不证明 Outcome achieved；没有 Actual Change 也不表示失败。
 
+现实修改必须逐项位于 Authorized Change。授权只来自 Human 当前 prompt 明确要求的动作，或该 prompt 无歧义引用且仍有效的既有委托；Build 名称、Task-scoped Request、Plan 和公共模板不能增加现实操作。
+
 ## Default Projection
 
 发生现实修改的普通 Build 使用：

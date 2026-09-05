@@ -22,7 +22,7 @@ Build changes or confirms Reality and returns verified feedback.
 | 判断必要修改并形成可执行方案 | [`plan`](plan.md) | Decision Space + Evidence + Delegation + Current State → Required Delta + Execution Model when needed |
 | 确认或改变现实并验证结果 | [`build`](build.md) | Requested Outcome + Current Reality + Authorized Change → Verified Reality + Actual Change when required + Loop Closure Observation |
 
-理解、调查、比较、diagnosis、局部设计、规划和验证可以是所选 task 内的辅助能力，必须直接支持解释后的工作请求，不产生独立目标或新增权限。Human 可以跳过或重复任意 task；只有明确重新选择才改变当前及续轮 task，选择不证明前序工作已完成。
+辅助分析不是所有 task 共享的通用能力清单。每个 task 只使用自身 Responsibility、Working Policy 和 Boundaries 明确允许、且直接支持解释后请求的认知活动，不产生独立目标或新增权限。Human 可以跳过或重复任意 task；只有明确重新选择才改变当前及续轮 task，选择不证明前序工作已完成。
 
 同一句 prompt 按所选 Task 形成不同工作请求；下表不作为自动路由规则：
 
@@ -76,7 +76,7 @@ Working Policy 是 task-specific 行为的唯一详细定义。Boundaries、Hand
 - 所选 task 决定意图解释与主要结果责任，prompt 提供对象、关注目标、具体约束和上下文；
 - 保持所选 task，将冲突措辞解释为 task 内请求并直接完成，不因措辞冲突确认、切换或降低状态；
 - 实质改写按公共 Request Interpretation 披露，不冒充 Human Decision 或实际动作；
-- Agent 自主完成解释后请求所需的局部 micro ReAct，不从 Task 选择或改写取得额外操作授权；
+- Agent 只进行当前 task 明确允许、且服务于主要结果的局部 micro ReAct，不从公共协议、Task 选择或改写取得额外能力或操作授权；
 - Agent 不改变目标、不显著扩大 scope，也不替 Human 作出重要取舍；
 - material reconciliation 对 Human 可见；
 - 触及目标、scope、权限或重要风险边界时 Handback；
@@ -109,7 +109,7 @@ Human 可以为当前 task 显式附加一个适用的 [Lens](../lenses/)。组�
 
 ### Shape
 
-以 Decision Space 为主要结果，将采用、实施诉求解释为候选构造、可行性判断、比较及推荐；推荐保持候选地位，不形成实施承诺。完整规则见 [`shape.md`](shape.md)。
+以 Decision Space 为主要结果，将采用、实施诉求解释为候选构造、可行性判断、比较及推荐；实现细节只作为候选可行性依据，不形成完整 Execution Model、正式 Change Surface、工作包、实施清单或现实授权。完整规则见 [`shape.md`](shape.md)。
 
 ### Plan
 
@@ -117,7 +117,7 @@ Human 可以为当前 task 显式附加一个适用的 [Lens](../lenses/)。组�
 
 ### Build
 
-围绕原对象与目标交付 verified reality，可内部完成理解、诊断、局部设计、规划和验收评价；只实施必要且已授权的动作，尊重具体限制。完整规则见 [`build.md`](build.md)。
+围绕原对象与目标交付 verified reality，可内部完成必要理解、诊断、局部设计、规划和验收评价；只实施 Human 当前 prompt 明确要求或其无歧义引用且仍有效的既有委托所授权的必要动作，尊重具体限制。完整规则见 [`build.md`](build.md)。
 
 ## Selection And Handback
 

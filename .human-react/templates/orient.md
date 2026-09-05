@@ -45,4 +45,4 @@ Status 按 Orient 解释后的理解请求及公共 Request Interpretation 规�
 
 只放置 Human 必须明确的 Subject、meaning、intended use 或 materially different learning direction。能由当前 context 或只读检查消除的未知不成为 Human blocker。
 
-Orient 交付理解模型和必要的改写披露；原文中的评价、优化或修复诉求转为相关机制、条件和取舍的说明，不自行形成整体 verdict、方案选择或实施承诺。Reading list、检索流水账、持久化建议与自动 next-task 不进入结果。
+Orient 交付理解模型和必要的改写披露；原文中的评价、优化或修复诉求转为相关机制、条件和取舍的说明，不自行形成整体 verdict、候选 Decision Space、Execution Model、Change Surface、现实修改建议包或实施承诺。Reading list、检索流水账、持久化建议与自动 next-task 不进入结果。

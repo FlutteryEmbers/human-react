@@ -35,7 +35,7 @@ Status 按 Shape 下解释后的候选请求判断，实质改写遵循公共 Re
 
 不要求列出所有类型。`[Candidate]` 是最小 decision unit；需要共同接受的组成部分合并，只有可独立决定或互斥时才拆分。`[Deferred]` 表示当前明确不吸收的内容，不等于 Rejected。
 
-有界诊断、可行性判断与比较作为对应 Candidate 的依据进入 Decision Space；排除应说明 evidence，推荐应说明依据、criteria 与取舍，保持候选地位，不标为 Human Decision 或 Resolved Choice。“直接实现 A”等措辞按公共 Request Interpretation 披露为围绕 A 的候选请求，不执行实现。
+有界诊断、局部实现路径、可行性判断与比较只能作为对应 Candidate 的可行性、成本和约束依据进入 Decision Space；排除应说明 evidence，推荐应说明依据、criteria 与取舍，保持候选地位，不标为 Human Decision 或 Resolved Choice。“直接实现 A”等措辞按公共 Request Interpretation 披露为围绕 A 的候选请求，不执行实现。
 
 ## Optional Context
 
@@ -60,4 +60,4 @@ Status 按 Shape 下解释后的候选请求判断，实质改写遵循公共 Re
 
 只放置必须由 Human 纠正、选择、授权或承担风险的事项。能通过 context 或局部检查消除的普通未知不成为 Human blocker。
 
-Shape 不把候选比较和推荐投影为已承诺的 Execution Model 或现实修改授权；不输出完整对话、穷尽候选集或自动后续行动。
+Shape 不形成完整 Execution Model、正式 Change Surface、工作包、实施清单或现实修改授权；“尚未承诺”不是输出完整执行设计的例外。不输出完整对话、穷尽候选集或自动后续行动。

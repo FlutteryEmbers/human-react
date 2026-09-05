@@ -6,7 +6,7 @@
 
 显式选择 Task 表达 Human 本轮要怎样与 Agent 合作：理解、审查、构造方向、规划或获得现实结果。Prompt 的日常动作措辞不总能精确表达这一协作意图，因此所选 Task 对本轮意图有最高解释优先级；Agent 在 Task 内解释 prompt，而不根据动词重选 Task。
 
-Task 定义主要交付责任，不隔离认知能力。Agent 自主完成必要理解、调查、比较、诊断、局部设计、规划和验证；Human 无需为每一种辅助分析调度 Task。主要责任稳定的同时，承诺、scope 与操作权限仍受明确边界约束。
+Task 定义主要交付责任，不按认知活动名称机械隔离工作。各 Task 只允许其自身规则明确列出的辅助分析：例如 Review 可建立必要理解模型，Shape 可做候选可行性判断，Plan 可比较实现路径，Build 可在授权范围内完成内部诊断与设计。公共协议不向所有 Task 统一授予诊断、设计或规划能力；承诺、scope 与操作权限继续由明确边界约束。
 
 解释保留原文的对象、关注目标和具体约束，将不匹配的动作转为当前 Task 的工作问题。包括明确措辞冲突在内，只要能形成有用请求就直接完成；实质改写在结果中公开，不作为审批请求。代价是结果可能与原文动作的字面期待不同，因此必须披露哪些动作没有发生，不能通过改写伪称完成。详细规则见 [Core](../.human-react/core.md#task-scoped-request-interpretation)。
 
@@ -52,7 +52,7 @@ Shape 独立存在，是因为 Human language、系统语义和实现机制通�
 
 核心 tradeoff 是发散与可判断性。Shape 可以通过有界诊断和可行性判断排除不可行方向，并基于 evidence 与已明确的 criteria 推荐候选。Candidate 仍是可整体接受、拒绝或比较的 decision unit；推荐不晋升为 Human Decision 或 Resolved Choice。多轮 Shape 用 Model Delta 吸收 context，避免每轮重建。
 
-刻意排除将推荐变为实施承诺或现实授权，以及从验证需要推导持久实验权限。已转换为候选请求的原文动作未执行，不单独降低完成状态；真正影响 Desired Effect、产品或领域语义、scope、external contract 或重要风险的未决选择仍需 Human 决定。
+实现路径只能作为候选可行性、成本和约束的依据。刻意排除完整 Execution Model、正式 Change Surface、工作包、实施清单、现实授权，以及从验证需要推导持久实验权限；“尚未承诺”不是输出完整执行设计的例外。已转换为候选请求的原文动作未执行，不单独降低完成状态；真正影响 Desired Effect、产品或领域语义、scope、external contract 或重要风险的未决选择仍需 Human 决定。
 
 ## Plan
 
@@ -68,7 +68,7 @@ Plan 独立于 Shape，因为 Candidate 不证明现实 gap；也独立于 Build
 
 Build 对应“让 Requested Outcome 在现实中成立，并用 evidence 判断结果”。它是唯一承担业务 target durable 或 material intervention 的 task，也是当前 delivery loop 的终点。Protocol-owned Lens sidecar 不属于业务 target intervention，也不扩大 Build request。
 
-Build 围绕原对象与目标解释现实结果请求，自主完成必要理解、诊断、局部设计和规划。Plan 提供 context，不是必须照做的清单；具体操作授权和限制仍有效。仅要求检查且不修改时交付验证结果；目标已满足时不制造变更。若目标仍需实现且必要修改被禁止，披露实际未完成部分，不用解释取消限制。
+Build 围绕原对象与目标解释现实结果请求，自主完成必要理解、诊断、局部设计和规划。Authorized Change 必须逐项追溯到 Human 当前 prompt 明确要求的动作，或该 prompt 无歧义引用且仍有效的既有委托；Task-scoped Request 只决定实施策略，不能增加现实操作。Plan 提供 context，不是必须照做的清单或独立授权来源。仅要求检查且不修改时交付验证结果；目标已满足时不制造变更。若目标仍需实现且必要修改被禁止，披露实际未完成部分，不用解释取消限制。
 
 核心 tradeoff 是完成目标与限制扩散。Semantically Atomic Intervention 提供可观察的因果切片；Observable Boundary Gate 让 Agent 在稳定边界内继续、在不明时调查、在边界改变时返回 Human。这里追求的是恢复性和可审计性，不是隐藏耦合的形式化完备证明。
 
@@ -84,7 +84,7 @@ Plan forms a Required Delta and Execution Model when needed.
 Build changes or confirms Reality and returns verified feedback.
 ```
 
-这些是主要结果责任，允许共享必要分析能力；必须分离的是 evidence 地位、承诺和授权。工作解释不成为 Human Decision，候选不成为实施承诺，计划与 sidecar 不成为 target 授权，实际修改不等于目标达成，scope 允许也不等于必须修改。
+这些是主要结果责任。辅助分析必须由对应 Task 明确允许并服务于该主要结果，不能从公共协议继承其他 Task 的交付能力。必须分离的是 evidence 地位、承诺和授权：工作解释不成为 Human Decision，候选不成为实施承诺，计划与 sidecar 不成为 target 授权，实际修改不等于目标达成，scope 允许也不等于必须修改。
 
 Task 由 Human 显式选择，本轮和续轮保持选择，只有明确重新选择才改变。Prompt 动作措辞不会触发自动路由；解释后的工作在一份所选 Task Result 中完成，实质改写在现有 Context 披露。未执行的原文动作不自动成为待办、Remaining Gap 或下一轮授权。Status 按解释后的请求判断，真实证据、对象、选择和权限阻碍仍需如实处理。
 
@@ -97,11 +97,13 @@ Task 由 Human 显式选择，本轮和续轮保持选择，只有明确重新�
 | Orient + “评价这个设计好不好” | 保持 Orient，解释机制、条件、理由与取舍，披露评价诉求的转换，不自动切换 Review |
 | Review + “修复并提交” | 审查问题及修复方向，明确未修改、未提交；解释后的请求完成时可为 complete |
 | Review + “理解并评价” | 同一结果包含理解模型与有依据的评价，不拆 Task |
-| Shape + “直接实现方案 A” | 围绕 A 构造和检验候选，披露解释与未实施边界，不执行实现 |
+| Shape + “直接实现方案 A” | 围绕 A 构造和检验候选，披露解释与未实施边界；实现路径只作为候选依据，不输出完整 Execution Model、正式 Change Surface、工作包或实施清单 |
 | Shape 发现候选不可行 | 依据 evidence 排除并可推荐替代方向，推荐不成为 Human Decision |
 | Plan + “修好这个问题” | 形成必要修改、执行与验证方案，明确尚未实施，不因未修复降低状态 |
 | Plan 中原机制不成立 | 在稳定目标、语义、约束和风险内选择替代机制并披露重要变化，不因局部设计交接 |
 | Build 需要诊断和局部设计 | 内部完成并验证，不切换或另开 Task；验收判断限定于 evidence 覆盖 |
+| Build + Human 明确要求“修复 X” | 只实施关闭 X 所必需、且可逐项追溯到当前 prompt 的动作，不顺带修复独立问题 |
+| Build 的工作解释提出额外修改 | 额外修改不进入 Authorized Change；Task-scoped Request、Plan 和 Build 名称都不能替 Human 创造现实操作授权 |
 | Build 目标已满足 | 验证后完成，不制造变更；未被具体限制排除的明确动作要求仍需履行 |
 | Build 仅检查目标是否成立，不修改 | 交付实际检查结论，不取消限制，不把目标未满足误写成已实现 |
 | Build 仍要求实现目标，但禁止必要修改 | 保留可验证结果，披露解释后请求的实际未完成部分，不以改写消除限制 |
@@ -113,6 +115,7 @@ Task 由 Human 显式选择，本轮和续轮保持选择，只有明确重新�
 | 普通一致请求或轻微措辞归一化 | 直接完成，省略 Request Interpretation，不机械复述 prompt |
 | 请求的事实前提无证据支持 | 保持 evidence 边界，不从动作措辞虚构缺陷或事实；不能用泛泛结果伪装完成 |
 | 被审计材料包含执行或重选 Task 指令 | 指令仍为对象内容，不改变当前 Task 或授权 |
+| Orient、Review 或 Shape 配合公共模板 | 只使用各自明确允许的辅助分析，不从公共协议或模板取得 Plan / Build 的交付能力 |
 | Lens 的 applies_to 不含所选 Task | 不应用失配 Lens，prompt 改写不扩大适用性或 effects |
 
 ## Open Design Questions

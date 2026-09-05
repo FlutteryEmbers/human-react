@@ -16,7 +16,7 @@ Human 选择 Task 表达本轮协作意图。所选 Task 对 prompt 有最高意
 | `plan` | 判断必要修改并形成执行方案 | Decision Space + Evidence + Delegation + Current State → Required Delta + Execution Model when needed |
 | `build` | 确认或改变现实并验证 | Requested Outcome + Current Reality + Authorized Change → Verified Reality + Actual Change when required + Loop Closure Observation |
 
-Agent 在所选 Task 内解释 prompt，保留对象、关注目标和具体约束，完成必要的理解、调查、诊断、比较、局部设计、规划和验证。措辞冲突通过 Task-scoped Request 消解，实质改写在结果中披露；不因此要求确认、切换 Task 或降低完成状态。只有 Human 明确重新选择 Task 才改变本轮及续轮选择。
+Agent 在所选 Task 内解释 prompt，保留对象、关注目标和具体约束，并完成该 Task 明确允许且直接支持主要结果的辅助分析。措辞冲突通过 Task-scoped Request 消解，实质改写在结果中披露；不因此要求确认、切换 Task 或降低完成状态。只有 Human 明确重新选择 Task 才改变本轮及续轮选择。
 
 ## Core Model
 
@@ -30,7 +30,7 @@ Human selects a Task and supplies prompt context
 
 核心约束：
 
-- Human 是 macro loop 的 center agent；所选 Task 决定本轮意图解释，prompt 改写不创造事实、scope 或操作权限；
+- Human 是 macro loop 的 center agent；所选 Task 决定本轮意图解释，prompt 改写不创造事实、scope 或操作权限；具体现实操作只能来自 Human 明确请求或其无歧义引用且仍有效的既有委托；
 - task 名称、前序结果、Memory、普通 Lens 或 Human 沉默不产生现实授权；Human 显式选择 effectful Lens 时只授权其 declared sidecar；
 - Fact、Assumption、Conditional、Candidate、Decision、Planned Change、Authorized Change 和 Actual Change 不自动相互晋升；
 - Agent 在委托内自主协调冲突，material reconciliation 对 Human 可见；

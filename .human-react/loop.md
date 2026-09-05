@@ -37,7 +37,7 @@ flowchart LR
 跨 task 多轮：Human 明确重新选择 task，Agent 按新选择处理后续请求
 ```
 
-Human 可以选择 Orient 作为 understanding side-loop，它不是 Review 前置阶段；Review 可直接包含必要理解模型。诊断、设计和规划也可作为当前 task 的辅助分析，不要求逐一交接。
+Human 可以选择 Orient 作为 understanding side-loop，它不是 Review 前置阶段；Review 可直接包含必要理解模型。辅助分析按各 task 的 Working Policy 使用，不因认知活动名称逐一交接，也不从公共协议取得其他 task 的交付能力。
 
 ## Commitment Flow
 
@@ -146,7 +146,7 @@ Handback：结果和 material boundary 返回 Human
 ## Invariants
 
 - 只有 Human 明确重新选择才跨 task 移动，系统不从动作措辞自动路由；
-- Task 内完成必要辅助分析；实质改写在结果中披露，未执行动作不自动形成下一轮或待办；
+- Task 内只完成其规则明确允许且服务于主要结果的辅助分析；实质改写在结果中披露，未执行动作不自动形成下一轮或待办；
 - 完成度按解释后的请求判断，结果不自动晋升承诺或权限；
 - Build verification 支持请求与 evidence 覆盖内的验收判断，不扩大为整个产品正确的保证；
 - Loop closure 是当前 evidence 下的 provisional closure，可被新 evidence、Reality change 或新目标重新打开。

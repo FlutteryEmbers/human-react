@@ -19,7 +19,7 @@
 
 `Outcome` 直接表达 semantic result，不使用“已分析”“已完成”或工具过程代替。`Human Attention: none` 保留，帮助 Human 在第一屏判断是否需要介入；没有补充内容时省略整个 Context。
 
-一轮只输出一份所选 Task 的结果，`Task` 字段不因 prompt 的动作措辞变化。Outcome 回答解释后的工作请求，辅助理解、诊断、比较与局部规划按需进入同一 Context，不叠加子 task 或其他结果包。
+一轮只输出一份所选 Task 的结果，`Task` 字段不因 prompt 的动作措辞变化。Outcome 回答解释后的工作请求；只有该 Task 明确允许且服务于主要结果的辅助分析才按需进入同一 Context，不叠加子 task 或其他结果包，也不借公共模板取得诊断、设计或规划能力。
 
 ## Status
 
