@@ -23,3 +23,7 @@ disable-model-invocation: true
 ## 显式上下文
 
 仅在用户明确选择 Lens 时，读取 [Lens 协议](../../../.human-react/lenses/README.md)、所选 Lens 及其适用的直接依赖，按原规则组合。仅在用户点名 Memory capture 时，读取 [Memory 协议](../../../.human-react/memory/README.md) 和指定文件。不从工具可用性或请求相似度自动加载 Lens、回忆 Memory 或写入 capture。
+
+## Copilot 可选交互
+
+读取 [学习焦点面板适配](references/learning-focus.md)。它只为 Orient 协议中的学习焦点校准增强交互；工具不可用时继续原生解释与 Handback，不新增强制文本问答。主要交付仍是解释模型。

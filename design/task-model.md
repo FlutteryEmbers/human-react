@@ -34,6 +34,10 @@ Orient 对应“我需要看懂什么”。它将优化、修复、评价等措�
 
 允许直接解释局限，设计理由区分有来源的依据与 Agent 推测。刻意排除从理解自行扩展独立审查、方案选择和现实修改；评价措辞在 Orient 内解释，不因此 Handback。Explanation 仍受 framing 影响，所以保持可修正，实质改写须公开，也不会自动进入 Memory。显式 Lens 的固定 sidecar 不改变主要责任。
 
+学习焦点未必能从最初请求完整提取。Orient 允许先给最小模型或例子，让 Human 辨认困惑，再修正解释焦点；这样不把“说清自己不知道什么”设为理解的前提。理解方向的运行定义只在 Orient Task 中维护，它们帮助组织解释，不是穷尽分类或用户能力画像。
+
+校准的价值取决于是否改变并改善解释，而非收集了多少回答。问题明确时直接解释；未反馈也不要求完成问卷或证明掌握。Copilot 的可选面板只是这种交互的宿主实现，与 Plan 中处理 Human-owned conflict 的决策交互保持独立。
+
 ## Review
 
 Review 对应“现实现在哪，以及为什么”。它让 working model 接受 evidence 校正，形成 finding、gap、diagnosis、fitness judgment 或可靠的不确定性边界。

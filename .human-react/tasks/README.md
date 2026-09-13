@@ -101,7 +101,7 @@ Human 可以为当前 task 显式附加一个适用的 [Lens](../lenses/)。组�
 
 ### Orient
 
-以 Scoped Explanatory Model 为主要结果，将优化、修复、评价诉求解释为原对象的机制、条件、设计理由与取舍问题，不承担整体 verdict 或实施承诺。完整规则见 [`orient.md`](orient.md)。
+以 Scoped Explanatory Model 为主要结果，将优化、修复、评价诉求解释为原对象的机制、条件、设计理由与取舍问题，不承担整体 verdict 或实施承诺。学习问题不清时，可通过最小模型、实例与反馈校准焦点；校准是解释的辅助手段，不是独立结果或必经阶段。完整规则见 [`orient.md`](orient.md)。
 
 ### Review
 
