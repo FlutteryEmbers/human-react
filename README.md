@@ -51,16 +51,36 @@ Design 不定义运行行为，sandbox 内容也不会自动晋升为当前设�
 
 ## Current Status
 
-五个 task 已提供以所选 Task 为意图锚点的 prompt 和 chat projection，实质改写通过 Request Interpretation 披露。当前系统是文档级协议，没有自动 task selection、runtime、adapter、generator 或 installer。
+五个 task 已提供以所选 Task 为意图锚点的 prompt 和 chat projection，实质改写通过 Request Interpretation 披露。当前系统是文档级协议，已提供 Copilot Skills v1 手动入口；没有自动 task selection、执行 runtime、generator 或 installer。
 
 [`lenses/**`](.human-react/lenses/) 已提供 manual runtime composition v1：Human 为当前 task 显式选择 Lens，Agent 解析其直接依赖后形成 specialized micro ReAct。普通 Lens 不增加权限；Human 显式选择带 `effects` 的 Lens 时，只授权 metadata 声明的 protocol-owned sidecar。
 
 [`memory/**`](.human-react/memory/) 已提供 episode-based Memory Capture v1：`memory-capture` Lens 为每次 Orient、Review 或 Build invocation 创建一个新文档，历史 capture 只由 Human 点名后手动加载。当前没有自动 loader、recall、index、resolver、deduplication、consolidation、schema validator、Tool provisioning 或 Skill。
 
+## Copilot Skills v1
+
+在 VS Code Copilot 中显式调用以下 Skill。入口按需读取原协议，不自动选择或串联 Task。
+
+| 指令 | 示例 |
+| --- | --- |
+| `/hr-orient` | `/hr-orient 解释这个项目的 Task 与 Lens 如何组合` |
+| `/hr-review` | `/hr-review 评价当前 Memory 设计的适用边界` |
+| `/hr-shape` | `/hr-shape 比较两种面向团队的接入方向` |
+| `/hr-plan` | `/hr-plan 为查询接口规划分页支持，保持旧客户端兼容` |
+| `/hr-build` | `/hr-build 只检查 README 的本地链接是否有效，不修改文件` |
+
+将本仓库的 `.github/skills/` 和 `.human-react/` 一起复制到目标仓库根目录，并保留相对位置。打开该仓库后，在 Copilot 聊天的 `/` 菜单检查五个 `hr-*` 入口；确保当前 Agent 能读取工作区文件。入口不会切换宿主模式或授予工具权限。只有 Skills 而缺少协议文件，不能构成完整接入。
+
+仅 `hr-plan` 提供可选的 Human conflict 面板：需要 Human 决策且当前会话允许使用 `vscode/askQuestions` 时优先提问，说明背景、冲突与每个选项的影响。工具缺失、失败或用户跳过时，回到原 Plan 的协调、Handback 和结果输出，不增加强制文本问答。面板不是必要依赖，选择方案也不授权 Build。
+
+本版没有 Codex 入口或自动安装；平台交互说明留在 Copilot Skill 内，共享协议保持平台无关。参见 [Copilot 手工验收](tests/copilot-skills.md)。Skills 的发现、交互和续轮行为需要在实际 Copilot 环境验证，静态检查不代表宿主行为已通过。
+
 ## Directory
 
 ```text
 human_react/
+├── .github/skills/       # Copilot 手动 Task 入口
+├── tests/               # Copilot 手工验收场景
 ├── README.md
 ├── design/
 │   ├── README.md
