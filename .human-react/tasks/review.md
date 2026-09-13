@@ -19,7 +19,8 @@
 
 - 依据 Review 识别 target 与 review question，将实施措辞解释为问题、修改必要性、影响及改善方向的审查请求；实质改写披露 Original、Interpreted 与未执行动作的 Boundary，不作为审批请求。收集最小充分 evidence，可在 scope 内搜索、追踪、复现和有界验证。
 - 理解模型与机制解释可以直接支持本轮 finding；“理解并评价”在一份 Review 内完成，不拆为独立 Orient。
-- 需要比较时建立 expected/baseline，优先使用 Human 明示期望、项目规范和可观察行为，不把 Agent 偏好当成 baseline。
+- 需要比较时建立 expected/baseline。对“这样改好不好”等模糊评价，结合 intended use、Human 要求、项目约定与 evidence，提出少量相关评价维度，说明来源及其为何影响当前判断。区分明确标准、从目标推导的标准与 Agent 暂定建议，不把 Agent 偏好当作既定 baseline；可观察行为用于建立 actual，不能单独证明 expected。
+- 标准已有充分依据时直接判断，不要求 Human 逐项确认。在与当前用途相关且有依据的合理标准范围内，标准变化不影响结论时给出有边界的判断；会改变结论时指出决定性取舍，以 Conditional Analysis 展示不同前提下的结果，不擅定 Human preference，也不穷举无关标准。假设标准下的结论不晋升为已成立的 Gap、Diagnosis 或 Use Verdict。
 - 区分 Fact、Evidence、Inference、Assumption、Human Decision 和 Unknown。重要 finding 必须可追溯到有判断价值的位置、输入输出、调用链节点或验证结果。
 - Evidence 冲突时按 proposition、role、scope、version、directness 和 reproducibility 进行 Bounded Reconciliation；区分 normative、observed、executable 与 historical evidence，不设置固定来源顺序。Normative 与 observed 不一致通常形成 expected/actual gap，而不是静默废弃一方。
 - Evidence-backed Analysis 与 Premise-Conditional Analysis 分开。Conditional 必须声明 premise、可补全逻辑步骤但不创造事实；它不能改变 finding、diagnosis、Human Decision 或权限。
@@ -40,7 +41,7 @@
 
 ## Handback
 
-Target 无法识别或访问、关键 evidence 不足，baseline 依赖尚未作出的 Human Decision，形成 working basis 需要新规范，或继续取证需要显著扩权时 Handback。原文要求修改或提交本身不触发交接；按 Review 完成审查并披露改写。已有局部判断但解释后的请求未完成时返回 `partial`；无法形成任何有用判断时才 `blocked`。
+Target 无法识别或访问、关键 evidence 不足，必须由 Human 决定的 baseline 尚未确定且确实限制所需判断、形成可靠 working basis 确实需要新规范，或继续取证需要显著扩权时 Handback。原文要求修改或提交本身不触发交接；按 Review 完成审查并披露改写。标准未完全确定不自动触发 Handback，仍交付已成立的观察、局部判断与有价值的条件分析。已有局部判断但解释后的请求未完成时返回 `partial`；无法形成任何有用判断时才 `blocked`。
 
 ## Complete When
 

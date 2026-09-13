@@ -25,6 +25,7 @@
 - 只有实际存在的 Required Delta 才生成 Change Surface。每个 target 必须有 observable unmet condition、可追溯到当前请求或不可缺少的 companion change，并构成最小充分干预；companion target 的 Reason 说明因果必要性。已满足的目标、preserve constraint 和受影响但无需修改的对象不进入 Change Surface。
 - 对 evidence 已指向、且可能改变 Change Surface、Verification、risk 或 Human decision 的 coupling 做 bounded impact inquiry。调查在更多信息不再可能改变这些结果时停止，不构造完整 Effect Surface 或探索推测性消费者。
 - 存在 Required Delta 时，以结果为单位组织 work packages、必要依赖和顺序；没有 delta 时用 Outcome 与 Verification 说明当前状态，不制造 no-op Execution Model。
+- Success Criteria 须能追溯到请求、既有约定，或目标与 evidence 的合理推导。Agent 提出的数值门槛或质量要求须标明建议及依据，不能自动成为 Human 要求，也不能独自证明修改必要性或扩大范围。未确定的门槛不写成既定 Verification Obligation，按需在 Planning Basis 说明建议或未决依据；关键验收取舍确实限制可靠规划时沿用 Handback，不对普通验证方法新增普遍确认步骤。
 - Success Criteria 定义 Verification Obligation；Checks 是当前 evidence 下的推荐方法，Build 可用 coverage 等价的方法替换。只有 Human 将特定平台、runner、command 或环境纳入 acceptance 时才固定方法。
 - Material coupling 使用 Change Surface Reason、Risks / Stop Conditions 和 Verification 表达。Compatibility Boundary 已建立时，Plan 可在其范围内选择 Mechanism；明显改变已知 external contract 但 Boundary 未建立时返回 `partial`，不把缺少 preserve Constraint 当成 breaking authorization。
 - 对 requested target、scope、delegation、Candidate、Boundary、strategy、dependency 和 verification 冲突进行 Bounded Reconciliation，披露实质改变的 working basis；将动作措辞解释为 Plan 请求的改写归 Request Interpretation，不重复披露。

@@ -21,8 +21,10 @@
 - 存在重构、歧义或 consolidated view 时，用简短 Human Anchor 保留核心诉求；用 Current Take 表达 Agent 对问题及其系统关系的可修正解释，不称为 shared truth。
 - 不假设 Human 用词与系统概念一一对应。可通过 context 或局部只读检查完成 semantic grounding；无关方向的歧义用 `[Assumption]`，仅分析后果用 `[Conditional]`，会改变目标、scope 或关键方向且无法消解时 Handback。
 - Agent 主动补充少量遗漏条件、反例、冲突和候选模型。未证实事实保持 Assumption 或 Unknown；Candidate 必须是可整体接受、拒绝或比较的最小 decision-relevant proposal。
-- 同一方案需要共同接受的组成部分合并为一个 Candidate。只有可独立决定或相互替代时才拆分；互斥候选用 Pressure Point 和有区分力的 Decision Criteria 表达。Agent 提出的 criteria 不自动成为 Human preference。
+- 同一方案需要共同接受的组成部分合并为一个 Candidate。只有可独立决定或相互替代时才拆分；互斥候选用 Pressure Point 和有区分力的 Decision Criteria 表达。Criteria 说明来自明确要求、目标与 evidence 的推导，还是 Agent 暂定建议；Agent 提出的 criteria 不自动成为 Human preference 或 Constraint。
 - 可以进行有界诊断、局部实现路径分析、可行性判断和候选比较；这些实现细节只作为 Candidate 的可行性、成本与约束依据。Evidence 证明不可行时可排除，只有疑点时保持假说。可以基于 evidence 与已明确的 criteria 推荐方向并说明取舍；推荐保持 Candidate 立场，不晋升为 Human Decision 或 Resolved Choice。
+- 对会影响 Candidate 选择的陌生概念，补充最小必要背景，将差异转成具体场景中的收益、代价和影响，紧邻对应 Candidate 或 Pressure Point。解释只服务于当前选择，不展开独立教学流程、不要求先运行 Orient，也不把术语列表当作取舍说明。
+- Human 理解后果后修正偏好是正常的模型更新。根据其明确反馈同步修订 Current Take、相关 Criteria、候选比较与推荐，不默认视为矛盾或要求重新开始；尚未表达的偏好仍不代填。推荐保持 Candidate 地位，重要价值与边界选择仍由 Human 决定。
 - 未被 Rejected 或 Deferred 的普通 means-level Candidate 可供后续 Plan 考虑。改变 Desired Effect、产品或领域语义、scope、external contract、risk acceptance 或 authority 的选择使用 `[Open] + Human Decision Required`。
 - Material Compatibility Surface 出现时，通过 `[Constraint]`、`[Decision]`、`[Candidate]` 或 `[Open]` 表达 Boundary，并说明 Basis。Surface 未知时保持 Unknown；Mechanism 只作为 means-level Candidate。没有 material Surface 时完全省略兼容内容。
 - Human language、system meaning、Current Take、Constraint 或 Candidate 冲突时进行 Bounded Reconciliation；有价值的分歧可以 `preserved` 为 Pressure Point 或 Open Decision，不静默关闭 Human-owned choice。

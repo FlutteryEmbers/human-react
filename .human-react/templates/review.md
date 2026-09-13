@@ -1,6 +1,6 @@
 # Review Result Projection
 
-Review 返回面向 Human 的 Evidence Checkpoint。使用 [`common.md`](common.md)；Outcome 默认表达 evidence-backed answer，只有 review question 本身是条件问题时才使用显式条件结论。
+Review 返回面向 Human 的 Evidence Checkpoint。使用 [`common.md`](common.md)；Outcome 默认表达 evidence-backed answer；问题本身是条件问题时使用显式条件结论。评价依据尚未确定且会改变结论时，Outcome 可直接说明无法给出单一结论及其原因，条件分支放入 Conditional Analysis，不伪造确定 verdict。
 
 ## Status
 
@@ -31,6 +31,8 @@ Status 评价 Review 下解释后的审查请求，不评价 target；实质改�
   - Repair Direction: <已有 gap 且确有帮助时>
 ```
 
+判断依据需要说明时紧邻对应结论，区分明确标准、目标推导与 Agent 暂定建议，不新增必填评价表。
+
 简单事实或单一 diagnosis 不要求 classification。Gap、Diagnosis 和 Repair Direction 默认放在对应 finding 下；只有它们跨多个 finding 才单独组织，不能复制原 finding。
 
 必要的整体理解模型与机制解释可在同一 Context 中先行说明，再展开 finding；“理解并评价”不拆 task。将“修复并提交”解释为审查请求时，按公共 Request Interpretation 披露未执行动作，不列为待审批或自动 Remaining Gap。
@@ -50,7 +52,7 @@ Classification 只用于 evidence-backed finding，表达 disposition，不表�
 - `Use Verdict`：只在问题询问 intended-use fitness 时放在 Context 开头：存在 Blocking 为 `blocked`；只有 Material 为 `usable-with-caveats`；只有 Minor/Validated 或无实质问题为 `usable`；证据不足为 `undetermined`。Outcome 说明实质原因，不重复列表。
 - `Target / Question`：target 复杂、多问题、歧义或 `partial / blocked` 时使用。
 - `Reconciliation`：evidence 冲突实质改变 finding、Diagnosis、Use Verdict 或 evidence boundary 时使用公共结构。
-- `Conditional Analysis`：仅在方向性 premise 有信息价值时列出 `Premise / If accepted / Not established`；它不成为 finding 或 Diagnosis。
+- `Conditional Analysis`：仅在方向性 premise 有信息价值时列出 `Premise / If accepted / Not established`；包括评价标准变化会改变结论的情形。假设标准下的结果不成为已成立的 finding、Gap、Diagnosis 或 Use Verdict；已观察事实仍可独立呈现。
 - `Uncertainty`：只保留会改变结论、范围或下一轮选择的未检查范围、替代解释和 evidence 上限。
 - `Follow-up Options`：只有后续方向能显著降低关键不确定性时使用，通常不超过 2 项；`Possible task` 仅在映射明确时出现。
 
