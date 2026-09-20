@@ -7,7 +7,7 @@
 - [`common.md`](common.md)：公共头部、Status、Request Interpretation、共享标签、Reconciliation 和压缩规则；
 - [`orient.md`](orient.md)：Scoped Explanatory Model；
 - [`review.md`](review.md)：Finding、Evidence、Gap 与 Diagnosis；
-- [`shape.md`](shape.md)：Decision Space 或 Model Delta；
+- [`shape.md`](shape.md)：按议题组织的 Decision Space 或 Model Delta；
 - [`plan.md`](plan.md)：Required Delta、Change Surface 与 Verification；
 - [`build.md`](build.md)：Actual Changes、Verification 与 Loop Closure。
 
@@ -24,10 +24,10 @@ Task prompt 定义所选 task 内的行为，Common 定义共享输出和实质�
 
 ## Design Boundary
 
-- 使用 progressive disclosure；没有实质改写或其他补充信息时可省略 Context，发生实质改写时必须保留 Request Interpretation；
+- 使用 progressive disclosure；没有条件必需内容或其他必要补充信息时可省略 Context，发生实质改写时必须保留 Request Interpretation；
 - 一份所选 Task Result 按解释后的请求判断完成度；未执行的原文动作在改写边界说明，不自动变成待办或降低状态；
 - 每项 material information 只有一个主要归属，不跨 section 重复展开；
-- 默认示例表示普通最小结果，不是完整字段清单；
+- 公共模板区分始终必需、条件必需与自由表达；默认示例不是完整字段清单，续轮和最短输出仍保留公共外壳与条件必需内容；
 - 当前状态已满足目标时，不生成空 Change Surface、Execution Model、Actual Changes 或 no-op packet；
 - internal Gate、Reflection、工具流水账和自动 next-task 不进入 projection；
 - 没有 schema、generator、loader、自动持久化或 external handoff；declared Lens effect 由对应 Lens contract 定义，不由 template 创建。

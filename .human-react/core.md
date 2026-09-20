@@ -86,7 +86,7 @@ Reconciliation state：
 | --- | --- |
 | `resolved` | 冲突已经解释或关闭 |
 | `provisional` | 采用 working basis 继续，但仍有影响判断的未知 |
-| `preserved` | 分歧有信息价值，保留为 Candidate、Pressure Point 或 Open Decision |
+| `preserved` | 分歧有信息价值，保留为 Candidate、相关议题内的分歧或 Open Decision |
 | `unresolved` | 无法形成当前 task 所需的可靠 working basis |
 
 不使用固定的“代码 > 测试 > 文档”来源顺序，不以多数票或更新时间单独决定权威。Observed evidence 约束描述性结论，但不会自动覆盖 Human-confirmed normative state。
@@ -175,7 +175,10 @@ Shape 暴露 material Compatibility Surface、Boundary 和 Basis；Plan 在 Boun
 - 重要 claim 是否没有超过 evidence；
 - 状态、承诺和权限是否保持分离；
 - material conflict、deviation、risk 和 Human decision 是否按需可见；
+- 最终答案是否符合公共及当前 task 模板：必填字段完整且顺序正确，Task 与 Status 有效，条件必需内容齐全，问题覆盖及归属明确，续轮压缩未丢失必要边界；
 - 是否已把控制权返回 Human。
+
+检查的是最终答案，不以已读取模板代替输出检查；发现遗漏或不符合时先修正再交付。具体格式以公共及当前 task 模板为准，遵循用户明确的格式要求。
 
 Closure Check 不生成必填 Reflection、评分、dashboard、自动持久化或自动后续 task。只有 Human 显式选择声明了持久 effect 的 Lens 时，才执行并披露其固定 sidecar；Reusable Insight 不因出现而自行写入 Memory、Lens 或项目文档。
 

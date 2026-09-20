@@ -54,9 +54,9 @@ Review 可以在一份结果中建立整体理解模型、解释机制并形成�
 
 Shape 对应“我们究竟在讨论什么，以及有哪些尚未承诺的方向”。采用、实现方案等措辞转为围绕原方案与目标构造、检验、比较和推荐候选，不因措辞冲突执行实现或要求重选 Task。
 
-Shape 独立存在，是因为 Human language、系统语义和实现机制通常不会天然对齐。Agent 在此扮演主动建模协作者：补充遗漏、反例、压力点和候选，但不冒充默认领域权威。
+Shape 独立存在，是因为 Human language、系统语义和实现机制通常不会天然对齐。Agent 在此扮演主动建模协作者：补充遗漏、反例、关键取舍和候选，但不冒充默认领域权威。
 
-核心 tradeoff 是发散与可判断性。Shape 可以通过有界诊断和可行性判断排除不可行方向，并基于 evidence 与已明确的 criteria 推荐候选。Candidate 仍是可整体接受、拒绝或比较的 decision unit；推荐不晋升为 Human Decision 或 Resolved Choice。多轮 Shape 用 Model Delta 吸收 context，避免每轮重建。
+核心 tradeoff 是发散与可判断性。Shape 可以通过有界诊断和可行性判断排除不可行方向，并基于 evidence 与已明确的 criteria 推荐候选。Candidate 仍是可整体接受、拒绝或比较的 decision unit；推荐不晋升为 Human Decision 或 Resolved Choice。Decision Space 先按议题组织，再呈现候选及影响；来自 Review 时保留 finding 来源，独立问题不混成一组选项。同题候选明确替代、组合或依赖关系；比较只解释已有候选，推荐明确所属议题、对象、标准与代价，不由候选数量触发。多轮 Shape 用按议题组织的 Model Delta 吸收 context，保持编号与引用稳定，避免每轮重建。
 
 实现路径只能作为候选可行性、成本和约束的依据。刻意排除完整 Execution Model、正式 Change Surface、工作包、实施清单、现实授权，以及从验证需要推导持久实验权限；“尚未承诺”不是输出完整执行设计的例外。已转换为候选请求的原文动作未执行，不单独降低完成状态；真正影响 Desired Effect、产品或领域语义、scope、external contract 或重要风险的未决选择仍需 Human 决定。
 

@@ -17,9 +17,21 @@
 <仅在 Outcome 之外仍有判断价值时出现>
 ```
 
-`Outcome` 直接表达 semantic result，不使用“已分析”“已完成”或工具过程代替。`Human Attention: none` 保留，帮助 Human 在第一屏判断是否需要介入；没有补充内容时省略整个 Context。
+`Outcome` 直接表达 semantic result，不使用“已分析”“已完成”或工具过程代替。`Human Attention: none` 保留，帮助 Human 在第一屏判断是否需要介入；仅在没有必要补充且没有条件必需内容时省略整个 Context。
 
 一轮只输出一份所选 Task 的结果，`Task` 字段不因 prompt 的动作措辞变化。Outcome 回答解释后的工作请求；只有该 Task 明确允许且服务于主要结果的辅助分析才按需进入同一 Context，不叠加子 task 或其他结果包，也不借公共模板取得诊断、设计或规划能力。
+
+## Requirement Levels
+
+| 类型 | 执行规则 |
+| --- | --- |
+| 始终必需 | 每份最终结果保留 `## Task Result`，以及依次排列的 `Task`、`Status`、`Outcome`、`Human Attention`；Task 与 Status 使用规定值 |
+| 条件必需 | 条件成立必须交付，例如实质改写的 Request Interpretation、effect receipt、Shape 多议题归属与推荐依据，以及各 task 模板规定的验证与边界 |
+| 自由表达 | 背景长度、列表或表格、解释深度按判断价值决定，不机械填满所有示例字段 |
+
+首次、续轮、短回答、无修改结果以及所有 Status 均保留公共外壳。“只输出 delta”“保持最短”和“不重复稳定 context”只压缩正文，不删除公共字段或条件必需内容。进度更新不套用最终结果模板。用户明确指定其他格式时遵循用户要求。
+
+可选内容一旦出现，仍须满足其完整性要求：例如可以不推荐，但不能输出无对象或无依据的推荐。各 task 模板定义自己的条件要求；Core 只要求交付前检查，Skill 入口不复制格式规则。
 
 ## Status
 
@@ -43,7 +55,7 @@ Human 显式选择 effectful Lens 后，不增加公共字段。成功 effect �
 
 ## Request Interpretation
 
-发生实质改写时，在现有 Context 下使用可选的 Request Interpretation；一旦出现实质冲突，披露必需，不能只在内部改写。普通一致请求与轻微措辞归一化省略此段，不要求每轮复述 prompt。无修改结果和续轮压缩同样保留本轮必需的改写披露，不能因只输出 delta 或 Verification 而省略。
+发生实质改写时，在现有 Context 下必须使用 Request Interpretation；一旦出现实质冲突，披露必需，不能只在内部改写。普通一致请求与轻微措辞归一化省略此段，不要求每轮复述 prompt。无修改结果和续轮压缩同样保留本轮必需的改写披露，不能因只输出 delta 或 Verification 而省略。
 
 ```markdown
 ### Context

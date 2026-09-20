@@ -89,6 +89,10 @@ Loop Closure 不评价前序 task，不重写 Starting Gap，不自动发起下�
 
 内容压缩为 Trigger、Resolution、Evidence 和 Boundary，不复制 Verification 或试错历史。失败路径只有在能避免未来重复昂贵、越权或无信息增益的尝试时保留。本轮新代码或测试不能单独证明 Invariant；只有 Human 显式选择 `memory-capture` 时，符合其 Capture Gate 的内容才写入本轮 declared sidecar。
 
+## Required Content And Compression
+
+首次、续轮、只检查及无修改结果均保留公共外壳。存在 Actual Change 时交代实际变化；没有时省略 Actual Changes。Verification 的既有必需条件同样适用于最短结果和续轮，保留本轮验收结论与覆盖边界；实质改写、material deviation、declared effect receipt 等已触发的披露不能因压缩丢失。
+
 ## Human Attention
 
 只放置需要 Human 决定、授权或接受的事项，例如新 scope、external contract、Compatibility Boundary、不可逆操作、重要风险或新的稳定责任边界。普通实现选择和 scope 外 Remaining Gap 不自动成为 blocker。

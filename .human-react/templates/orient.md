@@ -41,6 +41,10 @@ Status 按 Orient 解释后的理解请求及公共 Request Interpretation 规�
 
 同一 conversation 中的 follow-up 默认只补充或修正被追问部分。Human 要求总结、旧解释 material conflict，或局部回答会造成整体误解时才重建 consolidated model。
 
+## Required Content And Compression
+
+首次及续轮均保留公共外壳。Understanding Model 只在 Outcome 不足以解释时展开；省略 Context 必须同时满足没有任何公共条件必需内容。实质改写、影响判断的 reconciliation 或 declared effect receipt 不因短回答省略。
+
 ## Human Attention
 
 只放置 Human 必须明确的 Subject、meaning、intended use 或 materially different learning direction。能由当前 context 或只读检查消除的未知不成为 Human blocker。Human 说不清困惑或未反馈本身不成为 blocker；有依据的焦点假设按需放入 Learning Focus，不机械转为 Human Attention。

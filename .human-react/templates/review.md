@@ -37,6 +37,14 @@ Status 评价 Review 下解释后的审查请求，不评价 target；实质改�
 
 必要的整体理解模型与机制解释可在同一 Context 中先行说明，再展开 finding；“理解并评价”不拆 task。将“修复并提交”解释为审查请求时，按公共 Request Interpretation 披露未执行动作，不列为待审批或自动 Remaining Gap。
 
+## Finding References And Follow-up
+
+多 finding 使用 `F1`、`F2` 等稳定编号，例如 `- F1 [Material] <finding>`；单 finding 且无需引用时可以省略。每项 finding 的 Evidence 及适用的 Gap、Diagnosis、Repair Direction 保持相邻，不因编号而拆散。
+
+续轮保留原编号，新 finding 追加编号；不重新编号或将已有编号改指其他问题。finding 合并、拆分或撤回时说明对应关系，不复用退役编号。编号仅用于对话引用，不创建持久状态。
+
+短续轮仅展开变化，但保留公共外壳、本轮 evidence 与条件必需披露。Classification 可选；使用 Blocking 时必须说明 Blocks，重要判断必须有可追溯 evidence，不能将 Optional Context 理解为允许省略已触发的披露义务。
+
 ## Finding Semantics
 
 - `[Blocking]`：有 evidence 证明 finding 阻止明确 intended use，并紧邻说明 `Blocks`；

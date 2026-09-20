@@ -111,7 +111,7 @@ Follow-up 默认补充或修正被追问的 explanatory model；只有总结或 
 
 ### Review
 
-新 evidence 可以修正 finding、gap 或 diagnosis。Review 通过证据边界收敛，不通过强制形成唯一结论收敛。
+新 evidence 可以修正 finding、gap 或 diagnosis。多 finding 使用稳定编号，续轮新增 finding 追加编号，既有编号不重排。Review 通过证据边界收敛，不通过强制形成唯一结论收敛。
 
 ### Shape
 
@@ -122,7 +122,7 @@ Current Take + Decision Space
 = Model Delta
 ```
 
-短轮返回 delta，只有需要 consolidated view 时重建完整 Decision Space。
+短轮在公共结果外壳内返回按议题组织的 Model Delta，保留稳定引用和本轮条件必需内容；议题拆分或合并说明对应关系。只有需要 consolidated view 时重建完整 Decision Space。
 
 ### Plan
 
