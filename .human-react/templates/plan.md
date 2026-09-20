@@ -40,8 +40,8 @@ Status 按 Plan 下解释后的规划请求判断，实质改写遵循公共 Req
 
 ## Optional Context
 
-- `Planning Basis`：只保留会改变实施的 Target Outcome、Constraint、Human Decision、Assumption、Compatibility Boundary，以及必要诊断或局部模型的结论与依据。影响验收的建议门槛或未决依据在此按需标明，不冒充 Human 要求。
-- `Chosen Approach`：存在重要路径选择时说明整体 Approach，原机制不成立时说明替代机制及比较依据；Agent 在 delegation 内关闭的选择使用 `Resolved Choice + Basis`，不使用 `[Decision]`，不叠加 Shape Result。
+- `Planning Basis`：只保留会改变实施的 Target Outcome、Constraint、Human Decision、Assumption、Compatibility Boundary，以及必要诊断或局部模型的结论与依据。影响验收的建议门槛或未决依据在此按需标明，不冒充 Human 要求。会影响实施的暂定前提说明来源及其改变后的影响；Human-owned 选择保持未决，条件方案不表示可直接执行。
+- `Chosen Approach`：存在重要路径选择时说明整体 Approach，原机制不成立时说明替代机制及比较依据；重要选择在关闭前检查依据与实际影响是否在 delegation 内；合法关闭的选择使用 `Resolved Choice + Basis`，不使用 `[Decision]`，不叠加 Shape Result。
 - `Execution Model`：只有多个 work package、必要依赖或顺序时出现；按结果组织，不展开文件级微步骤和工具流水账。
 - `Scope`：只有重要 Allowed Changes、Do Not Touch 或 Out of Scope 时出现。Scope 是权限边界，不代替 Change Surface。
 - `Risks / Stop Conditions`：只保留会改变 Build 行为、授权或失败处理的 material coupling signal；Stop Condition 将其表达为 Build 可观察的停止边界。
@@ -60,6 +60,8 @@ Compatibility 不使用专用 section。已建立 Boundary 放入 Planning Basis
 首次、无 Required Delta 与局部续轮均保留公共外壳。存在 Required Delta 的完整结果必须交付 Change Surface 和 Verification；无 delta 也保留支持结论的 Verification。一旦 Change Surface 改变，不能以“只说变化”为由省略完整当前修改面及受影响内容；真正无法形成的内容说明缺口，不生成空字段。所有结果保留公共条件必需披露。
 
 ## Human Attention
+
+沿用公共定义，只保留最终未决事项；已解决的决定、仅需知悉的风险与可自主处理的暂定依据归对应 Context。
 
 只放置必须由 Human 确定的 Target Outcome、价值、产品或领域语义、scope、external contract、Compatibility Boundary、权限或重要风险接受。可由 Agent 在既有边界内关闭的技术选择不成为 blocker。
 

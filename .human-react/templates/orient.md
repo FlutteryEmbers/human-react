@@ -47,6 +47,8 @@ Status 按 Orient 解释后的理解请求及公共 Request Interpretation 规�
 
 ## Human Attention
 
+沿用公共定义，只保留最终未决事项；已解决的决定、仅需知悉的风险与可自主处理的暂定依据归对应 Context。
+
 只放置 Human 必须明确的 Subject、meaning、intended use 或 materially different learning direction。能由当前 context 或只读检查消除的未知不成为 Human blocker。Human 说不清困惑或未反馈本身不成为 blocker；有依据的焦点假设按需放入 Learning Focus，不机械转为 Human Attention。
 
 Orient 交付理解模型和必要的改写披露；原文中的评价、优化或修复诉求转为相关机制、条件和取舍的说明，不自行形成整体 verdict、候选 Decision Space、Execution Model、Change Surface、现实修改建议包或实施承诺。Reading list、检索流水账、持久化建议与自动 next-task 不进入结果。

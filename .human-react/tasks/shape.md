@@ -21,12 +21,14 @@
 - 存在重构、歧义或 consolidated view 时，用简短 Human Anchor 保留核心诉求；用 Current Take 表达 Agent 对问题及其系统关系的可修正解释，不称为 shared truth。
 - 不假设 Human 用词与系统概念一一对应。可通过 context 或局部只读检查完成 semantic grounding；无关方向的歧义用 `[Assumption]`，仅分析后果用 `[Conditional]`，会改变目标、scope 或关键方向且无法消解时 Handback。
 - Agent 主动补充少量遗漏条件、反例、冲突和候选模型。未证实事实保持 Assumption 或 Unknown；Candidate 必须是可整体接受、拒绝或比较的最小 decision-relevant proposal。
+- 构造候选前按 Core 检查议题是否准确表达 Human 目标；替代解读须说明与原诉求的关系并保持可修正身份。明确限定的 A/B 比较不扩为完整重设计，探索性的 A/B 不默认穷尽候选。重要理解变化进入 Focus，续轮修正进入 Model Delta；实质改写按 Request Interpretation 披露，同一信息不重复展开。
 - 先识别本轮议题，再在各议题内组织 Candidate。来自 Review 时保留对应 finding 的 Source，允许多 finding 合并或一个 finding 拆分；直接 Shape 不要求前置 Review。每个本轮要求处理的问题均有回应，未覆盖部分说明原因。
 - 同一方案需要共同接受的组成部分合并为一个 Candidate，独立提案可以拆分。议题可以只有一个提案或尚无提案，不为选择题虚构候选。同题多候选必须明确相互替代、可组合或依赖关系，不把跨问题的提案当成互斥选项。
 - 收益、代价、限制与依据紧邻 Candidate；仅在逐项说明不足时补充 Comparison，不在比较中引入未列明的候选或独立议题。Criteria 说明来自明确要求、目标与 evidence 的推导，还是 Agent 暂定建议；Agent 提出的 criteria 不自动成为 Human preference 或 Constraint。
 - 可以进行有界诊断、局部实现路径分析、可行性判断和候选比较；这些实现细节只作为 Candidate 的可行性、成本与约束依据。Evidence 证明不可行时可排除，只有疑点时保持假说。Recommendation 可省略，候选数量不触发推荐；出现时明确所属议题、目标候选或组合、evidence、criteria 与关键取舍。依据不足时保留未决或条件判断；跨议题排序称为处理优先级。推荐保持 Candidate 立场，不晋升为 Human Decision 或 Resolved Choice。
 - 对会影响 Candidate 选择的陌生概念，补充最小必要背景，将差异转成具体场景中的收益、代价和影响，紧邻对应 Candidate。解释只服务于当前选择，不展开独立教学流程、不要求先运行 Orient，也不把术语列表当作取舍说明。
 - Human 理解后果后修正偏好是正常的模型更新。根据其明确反馈同步修订 Current Take、相关 Criteria、候选比较与推荐，不默认视为矛盾或要求重新开始；尚未表达的偏好仍不代填。推荐保持 Candidate 地位，重要价值与边界选择仍由 Human 决定。
+- 只有影响当前工作的关键 Human-owned 分歧需要请求决定，不要求先有需求冲突；未答前保留 Open 并继续独立部分。普通候选讨论可以完整交付，不强迫 Human 逐项接受，不因候选尚未收敛自动降低状态。
 - 未被 Rejected 或 Deferred 的普通 means-level Candidate 可供后续 Plan 考虑。改变 Desired Effect、产品或领域语义、scope、external contract、risk acceptance 或 authority 的选择使用 `[Open] + Human Decision Required`。
 - Material Compatibility Surface 出现时，通过 `[Constraint]`、`[Decision]`、`[Candidate]` 或 `[Open]` 表达 Boundary，并说明 Basis。Surface 未知时保持 Unknown；Mechanism 只作为 means-level Candidate。没有 material Surface 时完全省略兼容内容。
 - Human language、system meaning、Current Take、Constraint 或 Candidate 冲突时进行 Bounded Reconciliation；有价值的分歧可以 `preserved` 为议题内有依据的候选分歧或 Open Decision，不静默关闭 Human-owned choice。

@@ -81,7 +81,7 @@ Comparison: Q2-A 与 Q2-B 可组合，分别处理遗漏与理解偏差。
 
 ## Optional Context
 
-- `Focus`：只在需要防止语义漂移时使用。Human Anchor 保留核心诉求；已在 Request Interpretation 的 Original 中呈现时简短引用，不重复展开。Current Take 是 Agent 的可修正模型；Alternative Read 只表达 materially different 解读。
+- `Focus`：议题框架有重要修正或需要防止语义漂移时使用；说明当前解读及其与原目标的关系，保持可修正身份。Human Anchor 保留核心诉求；已在 Request Interpretation 的 Original 中呈现时简短引用，不重复展开。Current Take 是 Agent 的可修正模型；Alternative Read 只表达 materially different 解读。
 - `Decision Criteria`：只有标准会真实区分候选时使用。简短说明标准来源；Agent 提出的 criteria 不自动成为 Human preference 或 Constraint。
 - `Conditional`：只分析 premise 成立后的方向，不把 premise 当成事实。
 - `Compatibility`：不创建专用 section。Material Surface 和 Boundary 使用 Fact、Constraint、Decision、Candidate 或 Open；重要 Boundary 附简短 Basis。Mechanism 只保持 Candidate；无 material Surface 时完全省略。
@@ -123,6 +123,8 @@ Comparison: Q2-A 与 Q2-B 可组合，分别处理遗漏与理解偏差。
 
 ## Human Attention
 
-只放置必须由 Human 纠正、选择、授权或承担风险的事项。能通过 context 或局部检查消除的普通未知不成为 Human blocker。
+沿用公共定义，只保留最终未决事项；已解决的决定、仅需知悉的风险与可自主处理的暂定依据归对应 Context。
+
+只放置最终必须由 Human 纠正、选择、授权或接受重要风险的事项。能通过 context 或局部检查消除的普通未知不成为 Human blocker。
 
 Shape 不形成完整 Execution Model、正式 Change Surface、工作包、实施清单或现实修改授权；“尚未承诺”不是输出完整执行设计的例外。不输出完整对话、穷尽候选集或自动后续行动。

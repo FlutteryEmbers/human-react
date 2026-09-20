@@ -103,6 +103,12 @@ Plan baseline
 
 该 micro loop 只限制现实扩张。它不要求 Human 检查 dependency graph，也不声称完整发现隐藏耦合。
 
+## Frame And Decision Checks
+
+首次形成工作理解、重要信息出现或重要方向收敛前，按 Core 进行有界框架检查。依据充分时自主继续；不涉及重要承诺的暂定理解在所属 Context 披露；影响目标、验收、scope 或重要承诺的未决选择先请求 Human 决定，独立部分继续。没有实质发现时不增加输出，不自动开启其他 task。
+
+Human 回答后只更新对应范围的决定；没有回答不等于接受。已关闭事项进入模型或规划依据，Human Attention 只列最终剩余事项，不以是否弹窗或字段是否非空衡量协作质量。
+
 ## Same-task Convergence
 
 ### Orient

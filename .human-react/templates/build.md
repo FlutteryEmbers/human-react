@@ -95,6 +95,8 @@ Loop Closure 不评价前序 task，不重写 Starting Gap，不自动发起下�
 
 ## Human Attention
 
+沿用公共定义，只保留最终未决事项；已解决的决定、仅需知悉的风险与可自主处理的暂定依据归对应 Context。
+
 只放置需要 Human 决定、授权或接受的事项，例如新 scope、external contract、Compatibility Boundary、不可逆操作、重要风险或新的稳定责任边界。普通实现选择和 scope 外 Remaining Gap 不自动成为 blocker。
 
 Build 不输出完整 execution trace、环境报告、self-audit、自动 routing 或 persistence 建议。

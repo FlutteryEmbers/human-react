@@ -68,6 +68,8 @@ Repair Direction 对应 evidence-backed gap，说明影响、改善方向及其�
 
 ## Human Attention
 
-只放置需要 Human 决定、授权或接受风险的事项。普通未知进入 Uncertainty；`[Blocking]` finding 也不会仅因分类自动成为 Human blocker。
+沿用公共定义，只保留最终未决事项；已解决的决定、仅需知悉的风险与可自主处理的暂定依据归对应 Context。
+
+只放置最终仍需要 Human 决定、授权或接受重要风险的事项。普通未知进入 Uncertainty；`[Blocking]` finding 也不会仅因分类自动成为 Human blocker。
 
 Review 不从审查自行展开独立的完整重设计、正式 Change Surface、执行步骤或实际修复；必要解释与对应 evidence-backed gap 的改善方向可以进入结果。不输出工具流水账或自动后续行动。

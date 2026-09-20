@@ -26,4 +26,4 @@ disable-model-invocation: true
 
 ## Copilot 可选交互
 
-读取 [Human conflict 面板适配](references/human-conflict.md)。它只在原 Plan 已需要 Human 决策且提问工具可用时增强交互；没有工具时原 Plan 流程保持不变。
+显式读取 [共享 Human decision 面板适配](../_shared/human-decision.md)。它为 Plan 已识别的重要 Human-owned decision 提供交互，不要求先有需求冲突；决策边界与结果以原协议为准。

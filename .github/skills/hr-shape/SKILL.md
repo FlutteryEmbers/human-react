@@ -23,3 +23,7 @@ disable-model-invocation: true
 ## 显式上下文
 
 仅在用户明确选择 Lens 时，读取 [Lens 协议](../../../.human-react/lenses/README.md)、所选 Lens 及其适用的直接依赖，按原规则组合。仅在用户点名 Memory capture 时，读取 [Memory 协议](../../../.human-react/memory/README.md) 和指定文件。不从工具可用性或请求相似度自动加载 Lens、回忆 Memory 或写入 capture。
+
+## Copilot 可选交互
+
+显式读取 [共享 Human decision 面板适配](../_shared/human-decision.md)。它为 Shape 中影响当前工作的重要 Human-owned 分歧提供交互，不要求每个 Candidate 都获接受；决策边界与结果以原协议为准。

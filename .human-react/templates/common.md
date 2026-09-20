@@ -10,7 +10,7 @@
 - Task: orient | review | shape | plan | build
 - Status: complete | partial | blocked
 - Outcome: <本轮最重要的结果>
-- Human Attention: <需要 Human 决定、授权或关注的风险；没有则为 none>
+- Human Attention: <最终仍需 Human 决定或授权的事项、需接受的重要风险；没有则为 none>
 
 ### Context
 
@@ -20,6 +20,12 @@
 `Outcome` 直接表达 semantic result，不使用“已分析”“已完成”或工具过程代替。`Human Attention: none` 保留，帮助 Human 在第一屏判断是否需要介入；仅在没有必要补充且没有条件必需内容时省略整个 Context。
 
 一轮只输出一份所选 Task 的结果，`Task` 字段不因 prompt 的动作措辞变化。Outcome 回答解释后的工作请求；只有该 Task 明确允许且服务于主要结果的辅助分析才按需进入同一 Context，不叠加子 task 或其他结果包，也不借公共模板取得诊断、设计或规划能力。
+
+## Human Attention
+
+只记录最终仍需要 Human 决定、授权或接受重要风险的事项。已解决的决定进入对应 Context；仅需知悉的风险留在风险或边界说明，可自主处理的暂定依据留在所属模型。`none` 表示没有剩余待处理事项，不表示本轮没有判断、提问或 Human decision。
+
+不能用披露代替必要决定，也不能仅为让字段非空而制造确认。未决事项是否影响 Status 按 task 完成条件判断；已完成的互动不作为提问记录重复输出。
 
 ## Requirement Levels
 
@@ -135,7 +141,7 @@ Human 显式选择 effectful Lens 后，不增加公共字段。成功 effect �
 - Request Interpretation（位于 Context）：实质改写的原文、本轮理解与处理边界；
 - Reconciliation：working basis 怎样因冲突改变；
 - Risk：evidence 尚未关闭的后果；
-- Human Attention：只有 Human 能关闭的决定、权限或风险接受。
+- Human Attention：最终仍需 Human 关闭的决定、权限或重要风险接受。
 
 ## Projection Rules
 

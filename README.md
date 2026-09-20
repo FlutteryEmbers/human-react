@@ -73,7 +73,7 @@ Design 不定义运行行为，sandbox 内容也不会自动晋升为当前设�
 
 `hr-orient` 提供可选的学习焦点面板：问题明确时直接解释；焦点不清且会影响解释时，先提供最小模型或例子，再帮助用户辨认需要的解释方向。选项说明将获得什么解释，用户无需先诊断自己哪里不懂。工具不可用或用户跳过时继续 Orient 原生流程，不强制文本问答。校准服务于理解，主要交付仍是解释模型。
 
-`hr-plan` 提供可选的 Human conflict 面板：需要 Human 决策且当前会话允许使用 `vscode/askQuestions` 时优先提问，说明背景、冲突与每个选项的影响。工具缺失、失败或用户跳过时，回到原 Plan 的协调、Handback 和结果输出，不增加强制文本问答。面板不是必要依赖，选择方案也不授权 Build。
+`hr-shape` 与 `hr-plan` 显式读取 [共享 Human decision 适配](.github/skills/_shared/human-decision.md)。当重要方向需用户决定时使用可用面板，不要求先出现需求冲突；普通候选讨论和委托内技术选择仍自主推进。工具缺失、失败或用户跳过时交付独立部分并保留未决事项，不默认接受。最终 Human Attention 仅表示剩余待处理事项，已解决时可以为 none；选择方案不授权 Build。
 
 本版没有 Codex 入口或自动安装；平台交互说明留在 Copilot Skill 内，共享协议保持平台无关。参见 [Copilot 手工验收](tests/copilot-skills.md)。Skills 的发现、交互和续轮行为需要在实际 Copilot 环境验证，静态检查不代表宿主行为已通过。
 
