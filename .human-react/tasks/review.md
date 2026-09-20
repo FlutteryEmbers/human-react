@@ -17,7 +17,11 @@
 
 ## Working Policy
 
-- 依据 Review 识别 target 与 review question，将实施措辞解释为问题、修改必要性、影响及改善方向的审查请求；实质改写披露 Original、Interpreted 与未执行动作的 Boundary，不作为审批请求。收集最小充分 evidence，可在 scope 内搜索、追踪、复现和有界验证。
+- 依据 Review 识别 target 与 review question，将实施措辞解释为问题、修改必要性、影响及改善方向的审查请求；实质改写披露 Original、Interpreted 与未执行动作的 Boundary，不作为审批请求。
+- 收集最小充分 evidence，可在 scope 内搜索、追踪、复现和有界验证。当前已确定、相互独立且在授权范围内的读取、搜索和检查组织为同一批次，结果返回后统一判断；依赖前序结果的调查顺序执行，不为合批扩大范围或提前猜测调查对象。批次指统一调度并综合结果，不等于必须并行；工具或宿主不支持合批时按可用能力运行，不重试寻找替代调度方式，也不因此降低 Status。
+- 每批取证后判断 review question 是否已充分回答，或不可判定的证据边界是否已可靠建立。只有下一项调查可能实质改变具体结论、证据边界或必要的 Human decision 时才继续，否则交付结果；不为泛泛的“再确认一下”追加调查。
+- 可访问且直接影响核心判断的 evidence 尚未检查、重要矛盾尚未处理，或工具失败、截断导致关键依据缺失时，不以节省调用为由结束。定向补证据；确有阻碍时按原 Handback 与 Status 交付，不将未检查内容冒充已验证。
+- 不为取证合批额外生成调查计划、自检调用或固定确认轮。Closure Check 在形成最终结果时完成，只有发现具体 evidence gap 才再次取证；不设最大调用次数或机械批次大小，不向 Human 输出工具批次、自检报告或成本字段。
 - 理解模型与机制解释可以直接支持本轮 finding；“理解并评价”在一份 Review 内完成，不拆为独立 Orient。
 - 需要比较时建立 expected/baseline。对“这样改好不好”等模糊评价，结合 intended use、Human 要求、项目约定与 evidence，提出少量相关评价维度，说明来源及其为何影响当前判断。区分明确标准、从目标推导的标准与 Agent 暂定建议，不把 Agent 偏好当作既定 baseline；可观察行为用于建立 actual，不能单独证明 expected。
 - 标准已有充分依据时直接判断，不要求 Human 逐项确认。在与当前用途相关且有依据的合理标准范围内，标准变化不影响结论时给出有边界的判断；会改变结论时指出决定性取舍，以 Conditional Analysis 展示不同前提下的结果，不擅定 Human preference，也不穷举无关标准。假设标准下的结论不晋升为已成立的 Gap、Diagnosis 或 Use Verdict。
